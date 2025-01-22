@@ -1,11 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_app/screens/home_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:restaurant_app/data/api/api_services.dart';
+import 'package:restaurant_app/providers/home/resto_list_provider.dart';
+import 'package:restaurant_app/screens/home/home_screen.dart';
 import 'package:restaurant_app/static/navigtaion_route.dart';
 import 'package:restaurant_app/style/theme/resto_theme.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        Provider<ApiServices>(
+          create: (_) => ApiServices(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => RestoListProvider(
+            context.read<ApiServices>(),
+          ),
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
