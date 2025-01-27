@@ -1,7 +1,7 @@
-enum NavigtaionRoute {
+enum NavigationRoute {
   mainRoute("/"),
   detailRoute("/detail");
 
-  const NavigtaionRoute(this.path);
+  const NavigationRoute(this.path);
   final String path;
 }
