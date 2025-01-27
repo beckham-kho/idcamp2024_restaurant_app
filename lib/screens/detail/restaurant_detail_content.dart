@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/data/model/detail/resto_detail_response.dart';
+import 'package:restaurant_app/static/navigation_route.dart';
 
 class RestaurantDetailContent extends StatelessWidget {
   const RestaurantDetailContent({
@@ -54,7 +55,11 @@ class RestaurantDetailContent extends StatelessWidget {
                           ),
                           child: InkWell(
                             onTap: () {
-                          
+                              Navigator.pushNamed(
+                                context, 
+                                NavigationRoute.ratingRoute.name,
+                                arguments: restaurantDetail.id,
+                              );
                             },
                             child: Padding(
                               padding: const EdgeInsets.all(5),
