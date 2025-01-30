@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/providers/detail/resto_detail_provider.dart';
 import 'package:restaurant_app/screens/rating/rating_screen_body.dart';
-import 'package:restaurant_app/static/resto_detail_result.dart';
+import 'package:restaurant_app/static/resto_detail_result_state.dart';
 
 class RatingScreen extends StatefulWidget {
   final String restaurantId;

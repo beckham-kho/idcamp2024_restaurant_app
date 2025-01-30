@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/data/api/api_services.dart';
-import 'package:restaurant_app/static/resto_detail_result.dart';
+import 'package:restaurant_app/static/resto_detail_result_state.dart';
 
 class RestoDetailProvider extends ChangeNotifier {
   final ApiServices _apiServices;

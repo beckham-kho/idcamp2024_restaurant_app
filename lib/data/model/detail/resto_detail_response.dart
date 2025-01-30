@@ -1,5 +1,6 @@
 import 'package:restaurant_app/data/model/detail/category.dart';
 import 'package:restaurant_app/data/model/detail/customer_review.dart';
+import 'package:restaurant_app/data/model/detail/resto_menu.dart';
 import 'package:restaurant_app/data/model/general/restaurant.dart';
 
 class RestoDetailResponse {

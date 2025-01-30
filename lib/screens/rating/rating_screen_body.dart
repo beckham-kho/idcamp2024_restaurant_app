@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/data/model/detail/resto_detail_response.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:restaurant_app/screens/rating/rating_input_dialog.dart';
 
 class RatingScreenBody extends StatefulWidget {
   final RestaurantDetail restaurantDetail;
@@ -15,11 +16,36 @@ class RatingScreenBody extends StatefulWidget {
 }
 
 class _RatingScreenBodyState extends State<RatingScreenBody> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _reviewController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.restaurantDetail.name),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        label: Text(
+          "Tambahkan ulasan",
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+            color: Theme.of(context).colorScheme.onPrimary,
+          ),
+        ),
+        icon: Icon(
+          Icons.add_rounded,
+          color: Theme.of(context).colorScheme.onPrimary,
+        ),
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return RatingInputDialog(restaurantId: widget.restaurantDetail.id, nameController: _nameController, reviewController: _reviewController);
+            },
+            
+          );
+        }
       ),
       body: SingleChildScrollView(
         child: Padding(
