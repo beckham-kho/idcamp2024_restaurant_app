@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/providers/home/resto_list_provider.dart';
 import 'package:restaurant_app/screens/home/resto_card_widget.dart';
+import 'package:restaurant_app/screens/home/theme_toggle_button.dart';
 import 'package:restaurant_app/static/navigation_route.dart';
 import 'package:restaurant_app/static/resto_list_result_state.dart';
 
@@ -36,12 +37,13 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5),
+              padding: const EdgeInsets.symmetric(vertical: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    width: MediaQuery.of(context).size.width * 0.6,
+                    width: MediaQuery.of(context).size.width * 0.5,
                     height: 40,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
@@ -57,12 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.grid_view_rounded),
-                    color: Theme.of(context).colorScheme.primary,
-                    iconSize: 28,
-                  ),
+                  ThemeToggleButton(),
                 ],
               ),
             ),
