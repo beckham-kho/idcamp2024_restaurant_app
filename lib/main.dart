@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:restaurant_app/data/api/api_services.dart';
 import 'package:restaurant_app/providers/detail/resto_detail_provider.dart';
 import 'package:restaurant_app/providers/home/resto_list_provider.dart';
+import 'package:restaurant_app/providers/home/search_resto_provider.dart';
 import 'package:restaurant_app/providers/rating/post_rating_provider.dart';
 import 'package:restaurant_app/providers/theme/theme_mode_provider.dart';
 import 'package:restaurant_app/screens/detail/detail_screen.dart';
@@ -36,6 +37,11 @@ void main() {
         ),
         ChangeNotifierProvider(
           create: (context) => ThemeModeProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => SearchRestoProvider(
+            context.read<ApiServices>(),
+          ),
         ),
       ],
       child: const MyApp(),

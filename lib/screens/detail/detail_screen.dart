@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/providers/detail/resto_detail_provider.dart';
 import 'package:restaurant_app/screens/detail/restaurant_detail_body.dart';
@@ -31,8 +32,13 @@ class _DetailScreenState extends State<DetailScreen> {
       body: Consumer<RestoDetailProvider>(
         builder: (context, value, child) {
           return switch (value.resultState) {
-            RestoDetailLoadingState() => const Center(
-              child: CircularProgressIndicator(),
+            RestoDetailLoadingState() => Center(
+              child: Lottie.asset(
+                "assets/animation/loading.json",
+                repeat: true,
+                height: 200,
+                width: 200,
+              ),
             ),
             RestoDetailLoadedState(data: var restaurant) => RestaurantDetailBody(restaurantDetail: restaurant),
             RestoDetailErrorState(error: var message) => Center(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/static/post_rating_result_state.dart';
 
@@ -88,8 +89,13 @@ class _RatingInputDialogState extends State<RatingInputDialog> {
                     },
                     child: Text("Kirim"),
                   ),
-                  PostRatingLoadingState() => const Center(
-                    child: CircularProgressIndicator(),
+                  PostRatingLoadingState() => Center(
+                    child: Lottie.asset(
+                      "assets/animation/loading.json",
+                      repeat: true,
+                      height: 200,
+                      width: 200,
+                    ),
                   ),
                   PostRatingSuccessState() => Text("Ulasan terkirim!"),
                   PostRatingErrorState(error: var message) => Text(message),

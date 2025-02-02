@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:restaurant_app/data/model/detail/resto_detail_response.dart';
 import 'package:restaurant_app/data/model/home/resto_list_response.dart';
+import 'package:restaurant_app/data/model/home/search_resto_response.dart';
 import 'package:restaurant_app/data/model/rating/customer_rating_response.dart';
 
 class ApiServices {
@@ -44,6 +45,17 @@ class ApiServices {
       return CustomerRatingResponse.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
     } else {
       throw Exception('Failed to post your rating :(');
+    }
+  }
+
+
+  Future<SearchRestoResponse> searchResto(String query) async {
+    final response = await http.get(Uri.parse("$_baseUrl/search?q=$query"));
+
+    if(response.statusCode == 200) {
+      return SearchRestoResponse.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to load restaurant detail :(');
     }
   }
 }
