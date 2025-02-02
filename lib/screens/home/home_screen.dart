@@ -140,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           restaurant: restaurant,
                           onTap: () {
                             Navigator.pushNamed(
-                              context, 
+                              context,
                               NavigationRoute.detailRoute.name,
                               arguments: restaurant.id,
                             );

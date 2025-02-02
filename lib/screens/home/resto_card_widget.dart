@@ -24,8 +24,11 @@ class RestoCard extends StatelessWidget {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.2,
                 width: MediaQuery.of(context).size.width,
-                child: Image.network("https://restaurant-api.dicoding.dev/images/small/${restaurant.pictureId}",  
-                fit: BoxFit.cover,
+                child: Hero(
+                  tag: 'restaurant-image-${restaurant.pictureId}',
+                  child: Image.network("https://restaurant-api.dicoding.dev/images/small/${restaurant.pictureId}",  
+                  fit: BoxFit.cover,
+                  ),
                 ),
               ),
               Positioned(

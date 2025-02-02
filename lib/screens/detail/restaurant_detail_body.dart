@@ -34,9 +34,12 @@ class RestaurantDetailBody extends StatelessWidget {
                 floating: false,
                 snap: false,
                 flexibleSpace: FlexibleSpaceBar(
-                  background: Image.network(
-                    "https://restaurant-api.dicoding.dev/images/small/${restaurantDetail.pictureId}",
-                    fit: BoxFit.cover,
+                  background: Hero(
+                    tag: 'restaurant-image-${restaurantDetail.pictureId}',
+                    child: Image.network(
+                      "https://restaurant-api.dicoding.dev/images/small/${restaurantDetail.pictureId}",
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
