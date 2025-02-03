@@ -13,6 +13,11 @@ class PostRatingProvider extends ChangeNotifier {
 
   PostRatingResultState get resultState => _resultState;
 
+  void setResultState(PostRatingResultState resultState) {
+    _resultState = resultState;
+    notifyListeners();
+  }
+
   Future<void> postRating(String id, String name, String review) async {
     try {
       _resultState = PostRatingLoadingState();

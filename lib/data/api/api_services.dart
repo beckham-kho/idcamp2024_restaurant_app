@@ -14,7 +14,7 @@ class ApiServices {
     if(response.statusCode == 200) {
       return RestoListResponse.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception('Failed to load restaurant data :(');
+      throw Exception('Gagal menampilkan daftar restoran :(');
     }
   }
 
@@ -24,7 +24,7 @@ class ApiServices {
     if(response.statusCode == 200) {
       return RestoDetailResponse.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception('Failed to load restaurant detail :(');
+      throw Exception('Gagal menampilkan detail restoran :(');
     }
   }
 
@@ -44,7 +44,7 @@ class ApiServices {
     if (response.statusCode == 201) {
       return CustomerRatingResponse.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
     } else {
-      throw Exception('Failed to post your rating :(');
+      throw Exception('Gagal mengirim ulasanmu :(');
     }
   }
 
@@ -55,7 +55,7 @@ class ApiServices {
     if(response.statusCode == 200) {
       return SearchRestoResponse.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception('Failed to load restaurant detail :(');
+      throw Exception('Gagal menampilkan restoran yang dicari :(');
     }
   }
 }

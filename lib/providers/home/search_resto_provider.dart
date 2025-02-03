@@ -24,7 +24,7 @@ class SearchRestoProvider extends ChangeNotifier {
         _resultState = SearchRestoErrorState("Failed to load restaurant detail :(");
         notifyListeners();
       } else if(result.founded == 0) {
-        _resultState = SearchRestoErrorState("Nama restaurant tidak ditemukan.");
+        _resultState = SearchRestoErrorState("Kata kunci '$query' tidak ditemukan.");
         notifyListeners();
       } else {
         _resultState = SearchRestoLoadedState(result.restaurants);

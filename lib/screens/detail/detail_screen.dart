@@ -42,7 +42,19 @@ class _DetailScreenState extends State<DetailScreen> {
             ),
             RestoDetailLoadedState(data: var restaurant) => RestaurantDetailBody(restaurantDetail: restaurant),
             RestoDetailErrorState(error: var message) => Center(
-              child: Text(message),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Lottie.asset(
+                    "assets/animation/error.json",
+                    width: 200,
+                    height: 200,
+                    repeat: true,
+                  ),
+                  Text(message),
+                ],
+              ),
             ),
             _ => const SizedBox(),
           };

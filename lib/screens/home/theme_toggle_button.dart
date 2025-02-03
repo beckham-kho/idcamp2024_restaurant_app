@@ -20,6 +20,7 @@ class _ThemeToggleButtonState extends State<ThemeToggleButton> {
       builder: (context, value, child) {
         return ToggleButtons(
           borderColor: Theme.of(context).colorScheme.primary,
+          selectedBorderColor: Theme.of(context).colorScheme.primary,
           borderRadius: BorderRadius.circular(30),
           isSelected: isThemeModeSelected,
           onPressed: (index) {

@@ -20,11 +20,11 @@ class RestaurantDetailBody extends StatelessWidget {
               sliver: SliverAppBar(
                 backgroundColor: Theme.of(context).colorScheme.secondary,
                 iconTheme: IconThemeData(
+                  size: 30,
                   shadows: [
                     Shadow(
                       blurRadius: 15,
-                      color: Colors.black,
-                      offset: Offset(0, 0)
+                      color: Theme.of(context).colorScheme.secondary,
                     )
                   ],
                   color: Theme.of(context).colorScheme.onSecondary,

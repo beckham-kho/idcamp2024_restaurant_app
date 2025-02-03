@@ -33,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.onPrimary,
         title: Text(
-          "Restaurant List",
+          "Daftar Restoran",
           style: Theme.of(context).textTheme.headlineLarge,
         ),
       ),
@@ -68,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           textAlignVertical: TextAlignVertical.center,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
-                            hintText: "Search Restaurant...",
+                            hintText: "Cari Restoran...",
                             prefixIcon: Icon(Icons.search),
                           ),
                         );
@@ -111,7 +111,19 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                     ),
                     SearchRestoErrorState(error: var message) => Center(
-                      child: Text(message),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Lottie.asset(
+                            "assets/animation/error.json",
+                            width: 200,
+                            height: 200,
+                            repeat: true,
+                          ),
+                          Text(message),
+                        ],
+                      ),
                     ),
                     _ => const SizedBox(),
                   };
@@ -149,7 +161,19 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                     ),
                     RestoListErrorState(error: var message) => Center(
-                      child: Text(message),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Lottie.asset(
+                            "assets/animation/error.json",
+                            width: 200,
+                            height: 200,
+                            repeat: true,
+                          ),
+                          Text(message),
+                        ],
+                      ),
                     ),
                     _ => const SizedBox(),
                   };

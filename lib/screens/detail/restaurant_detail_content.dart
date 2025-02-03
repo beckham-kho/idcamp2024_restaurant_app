@@ -62,17 +62,36 @@ class RestaurantDetailContent extends StatelessWidget {
                               );
                             },
                             child: Padding(
-                              padding: const EdgeInsets.all(5),
-                              child: Row(
+                              padding: const EdgeInsets.all(7),
+                              child: Column(
                                 children: [
-                                  Icon(
-                                    Icons.star_rounded,
-                                    color: Colors.yellow,
-                                    size: 30,
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      border: Border(
+                                        bottom: BorderSide(
+                                          color: Theme.of(context).colorScheme.onPrimary,
+                                        ),
+                                      ),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.star_rounded,
+                                          color: Colors.yellow,
+                                          size: 30,
+                                        ),
+                                        Text(
+                                          "${restaurantDetail.rating.toString()} (${restaurantDetail.customerReviews.length.toString()})" ,
+                                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                            color: Theme.of(context).colorScheme.onPrimary
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                   Text(
-                                    "${restaurantDetail.rating.toString()} (${restaurantDetail.customerReviews.length.toString()})" ,
-                                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                    "Cek Ulasan",
+                                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                       color: Theme.of(context).colorScheme.onPrimary
                                     ),
                                   ),
@@ -101,7 +120,7 @@ class RestaurantDetailContent extends StatelessWidget {
                         itemCount: restaurantDetail.categories.length,
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 20),
                     Text(
                       "Deskripsi",
                       style: Theme.of(context).textTheme.titleLarge,
@@ -112,43 +131,78 @@ class RestaurantDetailContent extends StatelessWidget {
                       style: Theme.of(context).textTheme.bodySmall,
                       textAlign: TextAlign.justify,
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 20),
                     Text(
                       "Menu",
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                     const SizedBox(height: 10),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Makanan",
-                              style: Theme.of(context).textTheme.titleMedium,
+                    Text(
+                      "Makanan",
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: 35,
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return Expanded(
+                            child: Container(
+                              alignment: Alignment.center,
+                              padding: EdgeInsets.all(5),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              child: Text(
+                                restaurantDetail.menus.foods[index].name,
+                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                  color: Theme.of(context).colorScheme.onPrimary
+                                ),
+                              ),
                             ),
-                            ...restaurantDetail.menus.foods.map((food) => Text(
-                              food.name,
-                            )),
-                          ],
-                        ),
-                        SizedBox(width: MediaQuery.of(context).size.width * 0.2),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Minuman",
-                              style: Theme.of(context).textTheme.titleMedium,
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return const SizedBox(width: 5);
+                        },
+                        itemCount: restaurantDetail.menus.foods.length,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      "Minuman",
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: 35,
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return Expanded(
+                            child: Container(
+                              alignment: Alignment.center,
+                              padding: EdgeInsets.all(5),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              child: Text(
+                                restaurantDetail.menus.drinks[index].name,
+                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                  color: Theme.of(context).colorScheme.onPrimary
+                                ),
+                              ),
                             ),
-                            ...restaurantDetail.menus.drinks.map((drink) => Text(
-                              drink.name,
-                            )),
-                          ],
-                        ),
-                      ],
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return const SizedBox(width: 5);
+                        },
+                        itemCount: restaurantDetail.menus.drinks.length,
+                      ),
                     ),
                   ],
                 ),

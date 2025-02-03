@@ -23,6 +23,8 @@ class RatingInputDialog extends StatefulWidget {
 }
 
 class _RatingInputDialogState extends State<RatingInputDialog> {
+  final _reviewFormKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -53,54 +55,93 @@ class _RatingInputDialogState extends State<RatingInputDialog> {
               },
             ),
             const SizedBox(height: 20),
-            TextField(
-              controller: widget._nameController,
-              decoration: const InputDecoration(
-                hintText: 'Masukan nama',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                )
-              ),
-            ),
-            const SizedBox(height: 20),
-            TextField(
-              controller: widget._reviewController,
-              maxLines: 4,
-              decoration: const InputDecoration(
-                hintText: 'Masukan ulasan',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                )
-              ),
-            ),
-            const SizedBox(height: 20),
-            Consumer<PostRatingProvider>(
-              builder: (context, value, child) {
-                return switch (value.resultState) {
-                  PostRatingNoneState() => ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        context.read<PostRatingProvider>().postRating(widget._restaurantId, widget._nameController.text, widget._reviewController.text);
-                        Future.delayed(
-                          Duration(seconds: 3),
-                          () => Navigator.pop(context),
-                        );
-                      });
+            Form(
+              key: _reviewFormKey,
+              child: Column(
+                children: [
+                  TextFormField(
+                    validator: (value) {
+                      if(value == null || value.isEmpty) {
+                        return "Nama anda tidak boleh kosong";
+                      }
+                      return null;
                     },
-                    child: Text("Kirim"),
-                  ),
-                  PostRatingLoadingState() => Center(
-                    child: Lottie.asset(
-                      "assets/animation/loading.json",
-                      repeat: true,
-                      height: 200,
-                      width: 200,
+                    controller: widget._nameController,
+                    decoration: const InputDecoration(
+                      hintText: 'Masukan nama',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      )
                     ),
                   ),
-                  PostRatingSuccessState() => Text("Ulasan terkirim!"),
-                  PostRatingErrorState(error: var message) => Text(message),
-                };
-              },
+                  const SizedBox(height: 20),
+                  TextFormField(
+                    validator: (value) {
+                      if(value == null || value.isEmpty) {
+                        return "Ulasan tidak boleh kosong";
+                      }
+                      return null;
+                    },
+                    controller: widget._reviewController,
+                    maxLines: 4,
+                    decoration: const InputDecoration(
+                      hintText: 'Masukan ulasan',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      )
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Consumer<PostRatingProvider>(
+                    builder: (context, value, child) {
+                      return switch (value.resultState) {
+                        PostRatingNoneState() => ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: WidgetStateProperty.all(
+                              Theme.of(context).colorScheme.primary,
+                            )
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              if (_reviewFormKey.currentState!.validate()) {
+                                context.read<PostRatingProvider>().postRating(widget._restaurantId, widget._nameController.text, widget._reviewController.text);
+                                Future.delayed(
+                                  Duration(seconds: 3),
+                                  () {
+                                    Navigator.pop(context);
+                                    context.read<PostRatingProvider>().setResultState(PostRatingNoneState());
+                                    widget._nameController.text = "";
+                                    widget._reviewController.text = "";
+                                  } 
+                                );
+                              }
+                            });
+                          },
+                          child: Text(
+                            "Kirim",
+                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            ),
+                          ),
+                        ),
+                        PostRatingLoadingState() => Center(
+                          child: Lottie.asset(
+                            "assets/animation/loading.json",
+                            repeat: true,
+                            height: 70,
+                            width: 70,
+                          ),
+                        ),
+                        PostRatingSuccessState() => Text(
+                          "Ulasan terkirim!",
+                          style: Theme.of(context).textTheme.bodyLarge
+                        ),
+                        PostRatingErrorState(error: var message) => Text(message),
+                      };
+                    },
+                  ),
+                ],
+              )
             ),
           ],
         ),
