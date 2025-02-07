@@ -11,7 +11,7 @@ class ApiServices {
   Future<RestoListResponse> getRestoList() async {
     final response = await http.get(Uri.parse("$_baseUrl/list"));
 
-    if(response.statusCode == 200) {
+    if (response.statusCode == 200) {
       return RestoListResponse.fromJson(jsonDecode(response.body));
     } else {
       throw Exception('Gagal menampilkan daftar restoran :(');
@@ -21,14 +21,15 @@ class ApiServices {
   Future<RestoDetailResponse> getRestoDetail(String id) async {
     final response = await http.get(Uri.parse("$_baseUrl/detail/$id"));
 
-    if(response.statusCode == 200) {
+    if (response.statusCode == 200) {
       return RestoDetailResponse.fromJson(jsonDecode(response.body));
     } else {
       throw Exception('Gagal menampilkan detail restoran :(');
     }
   }
 
-  Future<CustomerRatingResponse> postReview(String id, String name, String review) async {
+  Future<CustomerRatingResponse> postReview(
+      String id, String name, String review) async {
     final response = await http.post(
       Uri.parse("$_baseUrl/review"),
       headers: <String, String>{
@@ -42,17 +43,17 @@ class ApiServices {
     );
 
     if (response.statusCode == 201) {
-      return CustomerRatingResponse.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
+      return CustomerRatingResponse.fromJson(
+          jsonDecode(response.body) as Map<String, dynamic>);
     } else {
       throw Exception('Gagal mengirim ulasanmu :(');
     }
   }
 
-
   Future<SearchRestoResponse> searchResto(String query) async {
     final response = await http.get(Uri.parse("$_baseUrl/search?q=$query"));
 
-    if(response.statusCode == 200) {
+    if (response.statusCode == 200) {
       return SearchRestoResponse.fromJson(jsonDecode(response.body));
     } else {
       throw Exception('Gagal menampilkan restoran yang dicari :(');

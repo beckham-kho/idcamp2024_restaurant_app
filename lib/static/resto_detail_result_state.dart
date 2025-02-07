@@ -8,7 +8,7 @@ class RestoDetailLoadingState extends RestoDetailResultState {}
 
 class RestoDetailErrorState extends RestoDetailResultState {
   final String error;
-  
+
   RestoDetailErrorState(this.error);
 }
 

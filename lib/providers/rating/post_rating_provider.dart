@@ -5,9 +5,7 @@ import 'package:restaurant_app/static/post_rating_result_state.dart';
 class PostRatingProvider extends ChangeNotifier {
   final ApiServices _apiServices;
 
-  PostRatingProvider(
-    this._apiServices
-  );
+  PostRatingProvider(this._apiServices);
 
   PostRatingResultState _resultState = PostRatingNoneState();
 
@@ -25,15 +23,16 @@ class PostRatingProvider extends ChangeNotifier {
 
       final result = await _apiServices.postReview(id, name, review);
 
-      if(result.error) {
+      if (result.error) {
         _resultState = PostRatingErrorState(result.message);
         notifyListeners();
       } else {
         _resultState = PostRatingSuccessState();
         notifyListeners();
       }
-    } on Exception catch(e) {
-      _resultState = PostRatingErrorState(e.toString());
+    } on Exception catch (_) {
+      _resultState =
+          PostRatingErrorState("Terjadi kesalahan. Silakan coba lagi :(");
       notifyListeners();
     }
   }

@@ -6,7 +6,7 @@ class PostRatingLoadingState extends PostRatingResultState {}
 
 class PostRatingErrorState extends PostRatingResultState {
   final String error;
-  
+
   PostRatingErrorState(this.error);
 }
 

@@ -7,10 +7,7 @@ import 'package:restaurant_app/static/resto_detail_result_state.dart';
 
 class RatingScreen extends StatefulWidget {
   final String restaurantId;
-  const RatingScreen({
-    super.key,
-    required this.restaurantId
-  });
+  const RatingScreen({super.key, required this.restaurantId});
 
   @override
   State<RatingScreen> createState() => _RatingScreenState();
@@ -24,7 +21,7 @@ class _RatingScreenState extends State<RatingScreen> {
       context.read<RestoDetailProvider>().fetchRestoDetail(widget.restaurantId);
     });
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,17 +29,30 @@ class _RatingScreenState extends State<RatingScreen> {
         builder: (context, value, child) {
           return switch (value.resultState) {
             RestoDetailLoadingState() => Center(
-              child: Lottie.asset(
-                "assets/animation/loading.json",
-                repeat: true,
-                height: 200,
-                width: 200,
+                child: Lottie.asset(
+                  "assets/animation/loading.json",
+                  repeat: true,
+                  height: 200,
+                  width: 200,
+                ),
               ),
-            ),
-            RestoDetailLoadedState(data: var restaurant) => RatingScreenBody(restaurantDetail: restaurant),
+            RestoDetailLoadedState(data: var restaurant) =>
+              RatingScreenBody(restaurantDetail: restaurant),
             RestoDetailErrorState(error: var message) => Center(
-              child: Text(message),
-            ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Lottie.asset(
+                      "assets/animation/error.json",
+                      width: 200,
+                      height: 200,
+                      repeat: true,
+                    ),
+                    Text(message),
+                  ],
+                ),
+              ),
             _ => const SizedBox(),
           };
         },

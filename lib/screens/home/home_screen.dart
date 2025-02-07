@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:restaurant_app/providers/general/text_editing_controller_provider.dart';
 import 'package:restaurant_app/providers/home/resto_list_provider.dart';
 import 'package:restaurant_app/providers/home/search_resto_provider.dart';
 import 'package:restaurant_app/screens/home/resto_card_widget.dart';
@@ -17,8 +18,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final TextEditingController _searchController = TextEditingController();
-
   @override
   void initState() {
     super.initState();
@@ -52,18 +51,20 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 40,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      border: Border.all(color: Colors.grey)
-                    ),
-                    child: Consumer<SearchRestoProvider>(
-                      builder: (context, value, child) {  
+                        borderRadius: BorderRadius.circular(50),
+                        border: Border.all(color: Colors.grey)),
+                    child: Consumer2<SearchRestoProvider,
+                        TextEditingControllerProvider>(
+                      builder:
+                          (context, searchFieldValue, controllerValue, child) {
                         return TextField(
-                          controller: _searchController,
-                          onChanged: (value) {
-                            context.read<SearchRestoProvider>().fetchSearchResto(value);
-                            setState(() {
-                              _searchController.text = value;  
-                            });
+                          onChanged: (textValue) {
+                            context
+                                .read<SearchRestoProvider>()
+                                .fetchSearchResto(textValue);
+                            context
+                                .read<TextEditingControllerProvider>()
+                                .setSearchController(textValue);
                           },
                           textAlignVertical: TextAlignVertical.center,
                           decoration: const InputDecoration(
@@ -79,106 +80,117 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            _searchController.text.isNotEmpty
-            ?
-            Expanded(
-              child: Consumer<SearchRestoProvider>(
-                builder: (context, value, child) {
-                  return switch (value.resultState) {
-                    SearchRestoLoadingState() => Center(
-                      child: Lottie.asset(
-                        "assets/animation/loading.json",
-                        repeat: true,
-                        height: 200,
-                        width: 200,
-                      ),
-                    ),
-                    SearchRestoLoadedState(data: var restoList) => ListView.builder(
-                      itemCount: restoList.length,
-                      itemBuilder: (context, index) {
-                        final restaurant = restoList[index];
-                    
-                        return RestoCard(
-                          restaurant: restaurant,
-                          onTap: () {
-                            Navigator.pushNamed(
-                              context, 
-                              NavigationRoute.detailRoute.name,
-                              arguments: restaurant.id,
-                            );
+            Consumer<TextEditingControllerProvider>(
+              builder: (context, value, child) {
+                return context
+                        .watch<TextEditingControllerProvider>()
+                        .searchController
+                        .text
+                        .isNotEmpty
+                    ? Expanded(
+                        child: Consumer<SearchRestoProvider>(
+                          builder: (context, value, child) {
+                            return switch (value.resultState) {
+                              SearchRestoLoadingState() => Center(
+                                  child: Lottie.asset(
+                                    "assets/animation/loading.json",
+                                    repeat: true,
+                                    height: 200,
+                                    width: 200,
+                                  ),
+                                ),
+                              SearchRestoLoadedState(data: var restoList) =>
+                                ListView.builder(
+                                  itemCount: restoList.length,
+                                  itemBuilder: (context, index) {
+                                    final restaurant = restoList[index];
+
+                                    return RestoCard(
+                                      restaurant: restaurant,
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                          context,
+                                          NavigationRoute.detailRoute.name,
+                                          arguments: restaurant.id,
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
+                              SearchRestoErrorState(error: var message) =>
+                                Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Lottie.asset(
+                                        "assets/animation/error.json",
+                                        width: 200,
+                                        height: 200,
+                                        repeat: true,
+                                      ),
+                                      Text(message),
+                                    ],
+                                  ),
+                                ),
+                              _ => const SizedBox(),
+                            };
                           },
-                        );
-                      },
-                    ),
-                    SearchRestoErrorState(error: var message) => Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Lottie.asset(
-                            "assets/animation/error.json",
-                            width: 200,
-                            height: 200,
-                            repeat: true,
-                          ),
-                          Text(message),
-                        ],
-                      ),
-                    ),
-                    _ => const SizedBox(),
-                  };
-                },
-              ),
-            )
-            :
-            Expanded(
-              child: Consumer<RestoListProvider>(
-                builder: (context, value, child) {
-                  return switch (value.resultState) {
-                    RestoListLoadingState() => Center(
-                      child: Lottie.asset(
-                        "assets/animation/loading.json",
-                        repeat: true,
-                        height: 200,
-                        width: 200,
-                      ),
-                    ),
-                    RestoListLoadedState(data: var restoList) => ListView.builder(
-                      itemCount: restoList.length,
-                      itemBuilder: (context, index) {
-                        final restaurant = restoList[index];
-                    
-                        return RestoCard(
-                          restaurant: restaurant,
-                          onTap: () {
-                            Navigator.pushNamed(
-                              context,
-                              NavigationRoute.detailRoute.name,
-                              arguments: restaurant.id,
-                            );
+                        ),
+                      )
+                    : Expanded(
+                        child: Consumer<RestoListProvider>(
+                          builder: (context, value, child) {
+                            return switch (value.resultState) {
+                              RestoListLoadingState() => Center(
+                                  child: Lottie.asset(
+                                    "assets/animation/loading.json",
+                                    repeat: true,
+                                    height: 200,
+                                    width: 200,
+                                  ),
+                                ),
+                              RestoListLoadedState(data: var restoList) =>
+                                ListView.builder(
+                                  itemCount: restoList.length,
+                                  itemBuilder: (context, index) {
+                                    final restaurant = restoList[index];
+
+                                    return RestoCard(
+                                      restaurant: restaurant,
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                          context,
+                                          NavigationRoute.detailRoute.name,
+                                          arguments: restaurant.id,
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
+                              RestoListErrorState(error: var message) => Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Lottie.asset(
+                                        "assets/animation/error.json",
+                                        width: 200,
+                                        height: 200,
+                                        repeat: true,
+                                      ),
+                                      Text(message),
+                                    ],
+                                  ),
+                                ),
+                              _ => const SizedBox(),
+                            };
                           },
-                        );
-                      },
-                    ),
-                    RestoListErrorState(error: var message) => Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Lottie.asset(
-                            "assets/animation/error.json",
-                            width: 200,
-                            height: 200,
-                            repeat: true,
-                          ),
-                          Text(message),
-                        ],
-                      ),
-                    ),
-                    _ => const SizedBox(),
-                  };
-                },
-              ),
+                        ),
+                      );
+              },
             ),
           ],
         ),

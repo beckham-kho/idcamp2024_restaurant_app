@@ -8,7 +8,7 @@ class SearchRestoLoadingState extends SearchRestoResultState {}
 
 class SearchRestoErrorState extends SearchRestoResultState {
   final String error;
-  
+
   SearchRestoErrorState(this.error);
 }
 

@@ -5,11 +5,7 @@ class RestoCard extends StatelessWidget {
   final Restaurant restaurant;
   final Function() onTap;
 
-  const RestoCard({
-    super.key,
-    required this.restaurant, 
-    required this.onTap
-  });
+  const RestoCard({super.key, required this.restaurant, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +22,9 @@ class RestoCard extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 child: Hero(
                   tag: 'restaurant-image-${restaurant.pictureId}',
-                  child: Image.network("https://restaurant-api.dicoding.dev/images/small/${restaurant.pictureId}",  
-                  fit: BoxFit.cover,
+                  child: Image.network(
+                    "https://restaurant-api.dicoding.dev/images/small/${restaurant.pictureId}",
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
@@ -58,15 +55,21 @@ class RestoCard extends StatelessWidget {
                           children: [
                             Text(
                               restaurant.name,
-                              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                                color: Colors.white,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge
+                                  ?.copyWith(
+                                    color: Colors.white,
+                                  ),
                             ),
                             Text(
                               restaurant.city,
-                              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                color: Colors.white,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium
+                                  ?.copyWith(
+                                    color: Colors.white,
+                                  ),
                             ),
                           ],
                         ),
@@ -79,9 +82,12 @@ class RestoCard extends StatelessWidget {
                             const SizedBox(width: 2),
                             Text(
                               restaurant.rating.toString(),
-                              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                                color: Colors.white,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge
+                                  ?.copyWith(
+                                    color: Colors.white,
+                                  ),
                             ),
                           ],
                         )

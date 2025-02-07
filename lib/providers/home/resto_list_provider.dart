@@ -5,9 +5,7 @@ import 'package:restaurant_app/static/resto_list_result_state.dart';
 class RestoListProvider extends ChangeNotifier {
   final ApiServices _apiServices;
 
-  RestoListProvider(
-    this._apiServices
-  );
+  RestoListProvider(this._apiServices);
 
   RestoListResultState _resultState = RestoListNoneState();
 
@@ -20,15 +18,16 @@ class RestoListProvider extends ChangeNotifier {
 
       final result = await _apiServices.getRestoList();
 
-      if(result.error) {
+      if (result.error) {
         _resultState = RestoListErrorState(result.message);
         notifyListeners();
       } else {
         _resultState = RestoListLoadedState(result.restaurants);
         notifyListeners();
       }
-    } on Exception catch(e) {
-      _resultState = RestoListErrorState(e.toString());
+    } on Exception catch (_) {
+      _resultState =
+          RestoListErrorState("Terjadi kesalahan. Silakan coba lagi :(");
       notifyListeners();
     }
   }

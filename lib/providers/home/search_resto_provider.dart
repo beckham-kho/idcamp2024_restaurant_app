@@ -5,9 +5,7 @@ import 'package:restaurant_app/static/search_resto_result_state.dart';
 class SearchRestoProvider extends ChangeNotifier {
   final ApiServices _apiServices;
 
-  SearchRestoProvider(
-    this._apiServices
-  );
+  SearchRestoProvider(this._apiServices);
 
   SearchRestoResultState _resultState = SearchRestoNoneState();
 
@@ -20,18 +18,21 @@ class SearchRestoProvider extends ChangeNotifier {
 
       final result = await _apiServices.searchResto(query);
 
-      if(result.error) {
-        _resultState = SearchRestoErrorState("Failed to load restaurant detail :(");
+      if (result.error) {
+        _resultState =
+            SearchRestoErrorState("Failed to load restaurant detail :(");
         notifyListeners();
-      } else if(result.founded == 0) {
-        _resultState = SearchRestoErrorState("Kata kunci '$query' tidak ditemukan.");
+      } else if (result.founded == 0) {
+        _resultState =
+            SearchRestoErrorState("Kata kunci '$query' tidak ditemukan.");
         notifyListeners();
       } else {
         _resultState = SearchRestoLoadedState(result.restaurants);
         notifyListeners();
       }
-    } on Exception catch(e) {
-      _resultState = SearchRestoErrorState(e.toString());
+    } on Exception catch (_) {
+      _resultState =
+          SearchRestoErrorState("Terjadi kesalahan. Silakan coba lagi :(");
       notifyListeners();
     }
   }

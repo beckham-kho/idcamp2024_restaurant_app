@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/data/api/api_services.dart';
 import 'package:restaurant_app/providers/detail/resto_detail_provider.dart';
+import 'package:restaurant_app/providers/general/text_editing_controller_provider.dart';
 import 'package:restaurant_app/providers/home/resto_list_provider.dart';
 import 'package:restaurant_app/providers/home/search_resto_provider.dart';
 import 'package:restaurant_app/providers/rating/post_rating_provider.dart';
@@ -43,6 +44,9 @@ void main() {
             context.read<ApiServices>(),
           ),
         ),
+        ChangeNotifierProvider(
+          create: (context) => TextEditingControllerProvider(),
+        ),
       ],
       child: const MyApp(),
     ),
@@ -67,11 +71,13 @@ class MyApp extends StatelessWidget {
           routes: {
             NavigationRoute.mainRoute.name: (context) => const HomeScreen(),
             NavigationRoute.detailRoute.name: (context) => DetailScreen(
-              restaurantId: ModalRoute.of(context)?.settings.arguments as String,
-            ),
+                  restaurantId:
+                      ModalRoute.of(context)?.settings.arguments as String,
+                ),
             NavigationRoute.ratingRoute.name: (context) => RatingScreen(
-              restaurantId: ModalRoute.of(context)?.settings.arguments as String,
-            ),
+                  restaurantId:
+                      ModalRoute.of(context)?.settings.arguments as String,
+                ),
           },
         );
       },

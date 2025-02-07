@@ -13,7 +13,7 @@ class ThemeToggleButton extends StatefulWidget {
 
 class _ThemeToggleButtonState extends State<ThemeToggleButton> {
   List<bool> isThemeModeSelected = [true, false, false];
-  
+
   @override
   Widget build(BuildContext context) {
     return Consumer<ThemeModeProvider>(
@@ -25,33 +25,30 @@ class _ThemeToggleButtonState extends State<ThemeToggleButton> {
           isSelected: isThemeModeSelected,
           onPressed: (index) {
             switch (index) {
-              case 0: value.setThemeMode(ThemeMode.light); break;
-              case 1: value.setThemeMode(ThemeMode.dark); break;
-              case 2: value.setThemeMode(ThemeMode.system); break;
+              case 0:
+                value.setThemeMode(ThemeMode.light);
+                break;
+              case 1:
+                value.setThemeMode(ThemeMode.dark);
+                break;
+              case 2:
+                value.setThemeMode(ThemeMode.system);
+                break;
             }
             for (int i = 0; i < isThemeModeSelected.length; i++) {
-              if(isThemeModeSelected[i] == true) {
+              if (isThemeModeSelected[i] == true) {
                 isThemeModeSelected[i] = false;
               }
             }
             isThemeModeSelected[index] = true;
           },
           children: [
-            Icon(
-              Icons.wb_sunny_rounded, 
-              color: Theme.of(context).colorScheme.primary, 
-              size: 24
-            ),
-            Icon(
-              Icons.nightlight_rounded, 
-              color: Theme.of(context).colorScheme.primary, 
-              size: 24
-            ),
-            Icon(
-              Icons.phone_android_rounded, 
-              color: Theme.of(context).colorScheme.primary, 
-              size: 24
-            ),
+            Icon(Icons.wb_sunny_rounded,
+                color: Theme.of(context).colorScheme.primary, size: 24),
+            Icon(Icons.nightlight_rounded,
+                color: Theme.of(context).colorScheme.primary, size: 24),
+            Icon(Icons.phone_android_rounded,
+                color: Theme.of(context).colorScheme.primary, size: 24),
           ],
         );
       },

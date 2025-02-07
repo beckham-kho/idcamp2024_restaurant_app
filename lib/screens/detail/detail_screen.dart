@@ -25,7 +25,7 @@ class _DetailScreenState extends State<DetailScreen> {
       context.read<RestoDetailProvider>().fetchRestoDetail(widget.restaurantId);
     });
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,29 +33,30 @@ class _DetailScreenState extends State<DetailScreen> {
         builder: (context, value, child) {
           return switch (value.resultState) {
             RestoDetailLoadingState() => Center(
-              child: Lottie.asset(
-                "assets/animation/loading.json",
-                repeat: true,
-                height: 200,
-                width: 200,
+                child: Lottie.asset(
+                  "assets/animation/loading.json",
+                  repeat: true,
+                  height: 200,
+                  width: 200,
+                ),
               ),
-            ),
-            RestoDetailLoadedState(data: var restaurant) => RestaurantDetailBody(restaurantDetail: restaurant),
+            RestoDetailLoadedState(data: var restaurant) =>
+              RestaurantDetailBody(restaurantDetail: restaurant),
             RestoDetailErrorState(error: var message) => Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Lottie.asset(
-                    "assets/animation/error.json",
-                    width: 200,
-                    height: 200,
-                    repeat: true,
-                  ),
-                  Text(message),
-                ],
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Lottie.asset(
+                      "assets/animation/error.json",
+                      width: 200,
+                      height: 200,
+                      repeat: true,
+                    ),
+                    Text(message),
+                  ],
+                ),
               ),
-            ),
             _ => const SizedBox(),
           };
         },
