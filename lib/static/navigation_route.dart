@@ -1,5 +1,6 @@
 enum NavigationRoute {
   mainRoute("/"),
+  homeRoute("/home"),
   detailRoute("/detail"),
   ratingRoute("/rating");
 

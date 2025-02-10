@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/data/api/api_services.dart';
 import 'package:restaurant_app/providers/detail/resto_detail_provider.dart';
+import 'package:restaurant_app/providers/general/navigation_provider.dart';
 import 'package:restaurant_app/providers/general/text_editing_controller_provider.dart';
 import 'package:restaurant_app/providers/home/resto_list_provider.dart';
 import 'package:restaurant_app/providers/home/search_resto_provider.dart';
@@ -9,6 +10,7 @@ import 'package:restaurant_app/providers/rating/post_rating_provider.dart';
 import 'package:restaurant_app/providers/theme/theme_mode_provider.dart';
 import 'package:restaurant_app/screens/detail/detail_screen.dart';
 import 'package:restaurant_app/screens/home/home_screen.dart';
+import 'package:restaurant_app/screens/navigation/navigation_bar_widget.dart';
 import 'package:restaurant_app/screens/rating/rating_screen.dart';
 import 'package:restaurant_app/static/navigation_route.dart';
 import 'package:restaurant_app/style/theme/resto_theme.dart';
@@ -47,6 +49,9 @@ void main() {
         ChangeNotifierProvider(
           create: (context) => TextEditingControllerProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => NavigationProvider(),
+        ),
       ],
       child: const MyApp(),
     ),
@@ -69,7 +74,8 @@ class MyApp extends StatelessWidget {
           themeMode: context.watch<ThemeModeProvider>().themeMode,
           initialRoute: NavigationRoute.mainRoute.name,
           routes: {
-            NavigationRoute.mainRoute.name: (context) => const HomeScreen(),
+            NavigationRoute.mainRoute.name: (context) => const NavigationBarWidget(),
+            NavigationRoute.homeRoute.name: (context) => const HomeScreen(),
             NavigationRoute.detailRoute.name: (context) => DetailScreen(
                   restaurantId:
                       ModalRoute.of(context)?.settings.arguments as String,
