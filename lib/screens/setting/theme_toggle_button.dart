@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:restaurant_app/providers/theme/theme_mode_provider.dart';
+import 'package:restaurant_app/providers/services/shared_preference_provider.dart';
 
 class ThemeToggleButton extends StatefulWidget {
   const ThemeToggleButton({
@@ -12,12 +12,20 @@ class ThemeToggleButton extends StatefulWidget {
 }
 
 class _ThemeToggleButtonState extends State<ThemeToggleButton> {
-  List<bool> isThemeModeSelected = [true, false, false];
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      context.read<SharedPreferenceProvider>().getAppThemeModeValue();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ThemeModeProvider>(
+    return Consumer<SharedPreferenceProvider>(
       builder: (context, value, child) {
+        final isThemeModeSelected = value.isThemeModeSelected;
+
         return ToggleButtons(
           borderColor: Theme.of(context).colorScheme.primary,
           selectedBorderColor: Theme.of(context).colorScheme.primary,
@@ -26,13 +34,16 @@ class _ThemeToggleButtonState extends State<ThemeToggleButton> {
           onPressed: (index) {
             switch (index) {
               case 0:
-                value.setThemeMode(ThemeMode.light);
+                value.saveAppThemeModeValue("light");
+                value.getAppThemeModeValue();
                 break;
               case 1:
-                value.setThemeMode(ThemeMode.dark);
+                value.saveAppThemeModeValue("dark");
+                value.getAppThemeModeValue();
                 break;
               case 2:
-                value.setThemeMode(ThemeMode.system);
+                value.saveAppThemeModeValue("system");
+                value.getAppThemeModeValue();
                 break;
             }
             for (int i = 0; i < isThemeModeSelected.length; i++) {

@@ -89,7 +89,6 @@ class _RatingScreenBodyState extends State<RatingScreenBody> {
                 ),
                 const SizedBox(height: 15),
                 ListView.separated(
-                  physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   separatorBuilder: (context, index) {
                     return const SizedBox(height: 20);

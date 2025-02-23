@@ -2,21 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/data/api/api_services.dart';
 import 'package:restaurant_app/providers/detail/resto_detail_provider.dart';
+import 'package:restaurant_app/providers/general/fav_icon_provider.dart';
 import 'package:restaurant_app/providers/general/navigation_provider.dart';
 import 'package:restaurant_app/providers/general/text_editing_controller_provider.dart';
 import 'package:restaurant_app/providers/home/resto_list_provider.dart';
 import 'package:restaurant_app/providers/home/search_resto_provider.dart';
 import 'package:restaurant_app/providers/rating/post_rating_provider.dart';
-import 'package:restaurant_app/providers/theme/theme_mode_provider.dart';
+import 'package:restaurant_app/providers/services/database_provider.dart';
+import 'package:restaurant_app/providers/services/shared_preference_provider.dart';
 import 'package:restaurant_app/screens/detail/detail_screen.dart';
 import 'package:restaurant_app/screens/home/home_screen.dart';
 import 'package:restaurant_app/screens/navigation/navigation_bar_widget.dart';
 import 'package:restaurant_app/screens/rating/rating_screen.dart';
+import 'package:restaurant_app/services/shared_preference_service.dart';
+import 'package:restaurant_app/services/sqlite_service.dart';
 import 'package:restaurant_app/static/navigation_route.dart';
 import 'package:restaurant_app/style/theme/resto_theme.dart';
 import 'package:dynamic_color/dynamic_color.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final prefs = await SharedPreferences.getInstance();
+
   runApp(
     MultiProvider(
       providers: [
@@ -39,9 +47,6 @@ void main() {
           ),
         ),
         ChangeNotifierProvider(
-          create: (context) => ThemeModeProvider(),
-        ),
-        ChangeNotifierProvider(
           create: (context) => SearchRestoProvider(
             context.read<ApiServices>(),
           ),
@@ -52,26 +57,57 @@ void main() {
         ChangeNotifierProvider(
           create: (context) => NavigationProvider(),
         ),
+        Provider(
+          create: (context) => SqliteService(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => DatabaseProvider(
+            context.read<SqliteService>(),
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => FavIconProvider(),
+        ),
+        Provider(
+          create: (context) => SharedPreferenceService(prefs),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => SharedPreferenceProvider(
+            context.read<SharedPreferenceService>()
+          )
+        )
       ],
       child: const MyApp(),
     ),
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      context.read<SharedPreferenceProvider>().getAppThemeModeValue();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return DynamicColorBuilder(
       builder: (lightDynamic, darkDynamic) {
+
         return MaterialApp(
           title: 'Restaurant App',
           theme: RestoTheme.dynamicLightTheme(lightDynamic),
           darkTheme: RestoTheme.dynamicDarkTheme(darkDynamic),
-          // themeMode: ThemeMode.system,
-          themeMode: context.watch<ThemeModeProvider>().themeMode,
+          themeMode: context.watch<SharedPreferenceProvider>().appThemeMode,
           initialRoute: NavigationRoute.mainRoute.name,
           routes: {
             NavigationRoute.mainRoute.name: (context) => const NavigationBarWidget(),
@@ -90,3 +126,5 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+
