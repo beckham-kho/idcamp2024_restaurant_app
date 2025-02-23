@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restaurant_app/screens/setting/notification_switch.dart';
 import 'package:restaurant_app/screens/setting/theme_toggle_button.dart';
 
 class SettingScreen extends StatefulWidget {
@@ -32,12 +33,7 @@ class _SettingScreenState extends State<SettingScreen> {
               ListTile(
                 title: Text("Notifikasi Makan Siang"),
                 subtitle: Text("Notifikasi akan muncul setiap jam 11:00"),
-                trailing: Switch(
-                  onChanged: (value) {
-                    
-                  },
-                  value: false,
-                ),
+                trailing: NotificationSwitch(),
               ),
             ],
           ),

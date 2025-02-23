@@ -12,8 +12,11 @@ class SharedPreferenceProvider extends ChangeNotifier {
   ThemeMode _appThemeMode = ThemeMode.light;
   ThemeMode get appThemeMode => _appThemeMode;
 
-  List<bool> _isThemeModeSelected = [false, false, false];
+  final List<bool> _isThemeModeSelected = [false, false, false];
   List<bool> get isThemeModeSelected => _isThemeModeSelected;
+
+  bool _isOn = false;
+  bool get isOn => _isOn;
   
   Future<void> saveAppThemeModeValue(String value) async {
     try {
@@ -25,7 +28,6 @@ class SharedPreferenceProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-
   void getAppThemeModeValue() async {
     try {
       final selectedTheme = _service.getThemeModeValue();
@@ -34,6 +36,27 @@ class SharedPreferenceProvider extends ChangeNotifier {
         case "dark": _appThemeMode = ThemeMode.dark; _isThemeModeSelected[1] = true; break;
         default: _appThemeMode = ThemeMode.system; _isThemeModeSelected[2] = true;
       }
+      _message = "Berhasil memuat data shared preference";
+    } catch(e) {
+      _message = "Gagal memuat data shared preference";
+    }
+    notifyListeners();
+  }
+
+    Future<void> saveNotificationSettingValue(bool value) async {
+    print(value);
+    try {
+      await _service.saveNotificationSetting(value);
+      _message = "Berhasil menyimpan data shared preference";
+    } catch(e) {
+      _message = "Gagal menyimpan data shared preference";
+    }
+    notifyListeners();
+  }
+
+  void getNotificationSettingValue() async {
+    try {
+      _isOn = _service.getNotificationSetting();
       _message = "Berhasil memuat data shared preference";
     } catch(e) {
       _message = "Gagal memuat data shared preference";
