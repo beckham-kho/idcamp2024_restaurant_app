@@ -16,6 +16,7 @@ import 'package:restaurant_app/screens/navigation/navigation_bar_widget.dart';
 import 'package:restaurant_app/screens/rating/rating_screen.dart';
 import 'package:restaurant_app/services/shared_preference_service.dart';
 import 'package:restaurant_app/services/sqlite_service.dart';
+import 'package:restaurant_app/services/workmanager_service.dart';
 import 'package:restaurant_app/static/navigation_route.dart';
 import 'package:restaurant_app/style/theme/resto_theme.dart';
 import 'package:dynamic_color/dynamic_color.dart';
@@ -75,6 +76,9 @@ void main() async {
           create: (context) => SharedPreferenceProvider(
             context.read<SharedPreferenceService>()
           )
+        ),
+        Provider(
+          create: (context) => WorkmanagerService()..init()
         )
       ],
       child: const MyApp(),
@@ -95,6 +99,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     Future.microtask(() {
       context.read<SharedPreferenceProvider>().getAppThemeModeValue();
+      context.read<WorkmanagerService>().runPeriodicTask();
     });
   }
 

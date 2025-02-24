@@ -44,7 +44,6 @@ class SharedPreferenceProvider extends ChangeNotifier {
   }
 
     Future<void> saveNotificationSettingValue(bool value) async {
-    print(value);
     try {
       await _service.saveNotificationSetting(value);
       _message = "Berhasil menyimpan data shared preference";

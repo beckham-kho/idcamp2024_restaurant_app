@@ -11,6 +11,7 @@ class RestoListProvider extends ChangeNotifier {
 
   RestoListResultState get resultState => _resultState;
 
+
   Future<void> fetchRestoList() async {
     try {
       _resultState = RestoListLoadingState();
