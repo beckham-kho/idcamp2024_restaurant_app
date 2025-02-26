@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:restaurant_app/data/model/detail/resto_detail_response.dart';
 import 'package:restaurant_app/providers/services/database_provider.dart';
 import 'package:restaurant_app/screens/detail/restaurant_detail_content.dart';
+import 'package:restaurant_app/screens/widgets/restaurant_fav_button_widget.dart';
 
 class RestaurantDetailBody extends StatefulWidget {
   final RestaurantDetail restaurantDetail;
@@ -16,6 +17,14 @@ class RestaurantDetailBody extends StatefulWidget {
 }
 
 class _RestaurantDetailBodyState extends State<RestaurantDetailBody> {
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      context.read<DatabaseProvider>().readAllFavRestaurantValue();
+    });
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,27 +46,7 @@ class _RestaurantDetailBodyState extends State<RestaurantDetailBody> {
                   color: Theme.of(context).colorScheme.onSecondary,
                 ),
                 actions: [
-                  Consumer<DatabaseProvider>(
-                    builder: (context, value, child) {
-                      final isFav = value.restaurantList?.any((favRestaurant) => favRestaurant.id == widget.restaurantDetail.id) ?? false;
-
-                      return IconButton(
-                        onPressed: () async {
-                          final databaseProvider = context.read<DatabaseProvider>();
-                          if (isFav) {
-                            await databaseProvider.deleteFavRestaurantValueById(widget.restaurantDetail.id, widget.restaurantDetail.name);
-                          } else {
-                            await databaseProvider.createFavRestaurantValue(widget.restaurantDetail);
-                          }
-                        },
-                        icon: Icon(
-                          isFav ? Icons.favorite_rounded : Icons.favorite_outline_rounded,
-                          color: Colors.red,
-                          size: 30,
-                        ),
-                      );
-                    },
-                  ),
+                  RestaurantFavButton(restaurant: widget.restaurantDetail),
                 ],
                 expandedHeight: 200,
                 pinned: true,

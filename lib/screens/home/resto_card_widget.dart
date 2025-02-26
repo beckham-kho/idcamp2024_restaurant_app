@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/data/model/general/restaurant.dart';
-import 'package:restaurant_app/providers/general/fav_icon_provider.dart';
 import 'package:restaurant_app/providers/services/database_provider.dart';
+import 'package:restaurant_app/screens/widgets/restaurant_fav_button_widget.dart';
 
 class RestoCard extends StatefulWidget {
   final Restaurant restaurant;
@@ -17,16 +17,10 @@ class RestoCard extends StatefulWidget {
 class _RestoCardState extends State<RestoCard> {
   @override
   void initState() {
-    final databaseProvider = context.read<DatabaseProvider>();
-    final favIconProvider = context.read<FavIconProvider>();
-    
-    Future.microtask(() async {
-      await databaseProvider.readFavRestaurantByIdValue(widget.restaurant.id, widget.restaurant.name);
-      final value = databaseProvider.restaurant == null ? false : databaseProvider.restaurant!.id == widget.restaurant.id;
-      
-      favIconProvider.setIsFav(value);
-    });
     super.initState();
+    Future.microtask(() {
+      context.read<DatabaseProvider>().readAllFavRestaurantValue();
+    });
   }
 
   @override
@@ -135,26 +129,7 @@ class _RestoCardState extends State<RestoCard> {
                         ],
                       ),
                     ),
-                    child: IconButton(
-                      onPressed: () async {
-                        final databaseProvider = context.read<DatabaseProvider>();
-                        final favIconProvider = context.read<FavIconProvider>();
-                        final isFav = favIconProvider.isFav;
-
-                        if (!isFav) {
-                          await databaseProvider.createFavRestaurantValue(widget.restaurant);
-                        } else {
-                          await databaseProvider.deleteFavRestaurantValueById(widget.restaurant.id, widget.restaurant.name);
-                        }
-                        favIconProvider.setIsFav(!isFav);
-                        databaseProvider.readAllFavRestaurantValue();
-                      },
-                      icon: Icon(
-                        context.watch<FavIconProvider>().isFav ? Icons.favorite_rounded : Icons.favorite_outline_rounded,
-                        color: Colors.red,
-                        size: 30,
-                      ),
-                    ),
+                    child: RestaurantFavButton(restaurant: widget.restaurant),
                   ),
                 ),
               )

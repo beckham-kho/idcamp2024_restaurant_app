@@ -66,4 +66,8 @@ class DatabaseProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  bool isFavRestaurant(String id) {
+    return _restaurantList?.where((restaurant) => restaurant.id == id).isNotEmpty ?? false;
+  }
 }

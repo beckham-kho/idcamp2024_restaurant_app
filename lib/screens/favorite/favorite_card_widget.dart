@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:restaurant_app/data/model/general/restaurant.dart';
+import 'package:restaurant_app/providers/services/database_provider.dart';
+import 'package:restaurant_app/screens/widgets/restaurant_fav_button_widget.dart';
 
-class FavoriteCard extends StatelessWidget {
+class FavoriteCard extends StatefulWidget {
   const FavoriteCard({
     super.key,
     required this.restaurant,
@@ -12,9 +15,22 @@ class FavoriteCard extends StatelessWidget {
   final Function() onTap;
 
   @override
+  State<FavoriteCard> createState() => _FavoriteCardState();
+}
+
+class _FavoriteCardState extends State<FavoriteCard> {
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      context.read<DatabaseProvider>().readAllFavRestaurantValue();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: widget.onTap,
       child: Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
@@ -29,7 +45,7 @@ class FavoriteCard extends StatelessWidget {
               child: Image.network(
                 width: 120,
                 height: 68,
-                "https://restaurant-api.dicoding.dev/images/small/${restaurant.pictureId}",
+                "https://restaurant-api.dicoding.dev/images/small/${widget.restaurant.pictureId}",
                 fit: BoxFit.cover,
               ),
             ),
@@ -37,8 +53,8 @@ class FavoriteCard extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(restaurant.name),
-                Text(restaurant.city),
+                Text(widget.restaurant.name),
+                Text(widget.restaurant.city),
                 Row(
                   children: [
                     Icon(
@@ -48,7 +64,7 @@ class FavoriteCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 2),
                     Text(
-                      restaurant.rating.toString(),
+                      widget.restaurant.rating.toString(),
                       style: Theme.of(context)
                         .textTheme
                         .titleMedium
@@ -58,14 +74,7 @@ class FavoriteCard extends StatelessWidget {
               ],
             ),
             Spacer(),
-            IconButton(
-              onPressed: () {}, 
-              icon: Icon(
-                Icons.favorite_rounded,
-                size: 30,
-                color: Colors.red,
-              ),
-            ),
+            RestaurantFavButton(restaurant: widget.restaurant),
           ],
         )
       ),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/data/api/api_services.dart';
 import 'package:restaurant_app/providers/detail/resto_detail_provider.dart';
-import 'package:restaurant_app/providers/general/fav_icon_provider.dart';
 import 'package:restaurant_app/providers/general/navigation_provider.dart';
 import 'package:restaurant_app/providers/general/text_editing_controller_provider.dart';
 import 'package:restaurant_app/providers/home/resto_list_provider.dart';
@@ -67,9 +66,6 @@ void main() async {
           create: (context) => DatabaseProvider(
             context.read<SqliteService>(),
           ),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => FavIconProvider(),
         ),
         Provider(
           create: (context) => SharedPreferenceService(prefs),
