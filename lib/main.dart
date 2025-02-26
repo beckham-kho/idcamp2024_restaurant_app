@@ -9,11 +9,13 @@ import 'package:restaurant_app/providers/home/resto_list_provider.dart';
 import 'package:restaurant_app/providers/home/search_resto_provider.dart';
 import 'package:restaurant_app/providers/rating/post_rating_provider.dart';
 import 'package:restaurant_app/providers/services/database_provider.dart';
+import 'package:restaurant_app/providers/services/local_notification_provider.dart';
 import 'package:restaurant_app/providers/services/shared_preference_provider.dart';
 import 'package:restaurant_app/screens/detail/detail_screen.dart';
 import 'package:restaurant_app/screens/home/home_screen.dart';
 import 'package:restaurant_app/screens/navigation/navigation_bar_widget.dart';
 import 'package:restaurant_app/screens/rating/rating_screen.dart';
+import 'package:restaurant_app/services/local_notification_service.dart';
 import 'package:restaurant_app/services/shared_preference_service.dart';
 import 'package:restaurant_app/services/sqlite_service.dart';
 import 'package:restaurant_app/services/workmanager_service.dart';
@@ -79,7 +81,15 @@ void main() async {
         ),
         Provider(
           create: (context) => WorkmanagerService()..init()
-        )
+        ),
+        Provider(
+          create: (context) => LocalNotificationService()..init(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => LocalNotificationProvider(
+            context.read<LocalNotificationService>(),
+          )..requestPermission(),
+        ),
       ],
       child: const MyApp(),
     ),
