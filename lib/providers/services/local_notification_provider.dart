@@ -19,9 +19,9 @@ class LocalNotificationProvider extends ChangeNotifier {
     _notificationId += 1;
     flutterNotificationService.showNotification(
       id: _notificationId,
-      title: "Ubur-ubur ikan lele, yakin gak mau makan le?",
+      title: "Ubur-ubur ikan lele, yakin belum mau makan le?",
       body: "$restaurantName lagi nungguin kamu lohhh. Yuk cus kesana!",
-      payload: "This is a payload from notification with id $_notificationId",
+      payload: "",
     );
   }
 }

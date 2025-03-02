@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:restaurant_app/data/api/api_services.dart';
 import 'package:restaurant_app/providers/home/resto_list_provider.dart';
+import 'package:restaurant_app/providers/services/local_notification_provider.dart';
+import 'package:restaurant_app/services/local_notification_service.dart';
 import 'package:restaurant_app/static/app_workmanager.dart';
 import 'package:restaurant_app/static/resto_list_result_state.dart';
 import 'package:workmanager/workmanager.dart';
@@ -9,11 +11,14 @@ import 'package:workmanager/workmanager.dart';
 @pragma('vm:entry-point')
 void callbackDispatcher() {
   Workmanager().executeTask((task, inputData) async {
-    if(task == AppWorkmanager.periodic.taskName) {
+    if(task == AppWorkmanager.periodic.taskName || task == AppWorkmanager.oneOff.taskName) {
       var restaurantNames = [];
-
       final apiServices = ApiServices();
       final restoListProvider = RestoListProvider(apiServices);
+
+      final flutterNotificationService = LocalNotificationService();
+      final localNotificationProvider = LocalNotificationProvider(flutterNotificationService);
+      
       await restoListProvider.fetchRestoList();
       final resultState = restoListProvider.resultState;
 
@@ -21,11 +26,11 @@ void callbackDispatcher() {
         for (var restaurant in resultState.data) {
           restaurantNames.add(restaurant.name);
         }
-
-      final randomRestaurantNameIndex = Random().nextInt(restaurantNames.length - 1);
-      final randomRestaurant = restaurantNames[randomRestaurantNameIndex];
-      print(randomRestaurant);
-
+        final randomRestaurantNameIndex = Random().nextInt(restaurantNames.length - 1);
+        final randomRestaurant = restaurantNames[randomRestaurantNameIndex];
+        if(DateTime.now().hour == 11) {
+          localNotificationProvider.showNotification(randomRestaurant);
+        }
       } else if (resultState is RestoListErrorState) {
         print("Gagal dalam memuat data restoran");
       }
@@ -47,14 +52,27 @@ class WorkmanagerService {
     await _workmanager.registerPeriodicTask(
       AppWorkmanager.periodic.uniqueName,
       AppWorkmanager.periodic.taskName,
-      frequency: const Duration(minutes: 15),
-      initialDelay: Duration.zero,
+      frequency: const Duration(hours: 1),
+      initialDelay: Duration(minutes: 60) - Duration(minutes: DateTime.now().minute),
       inputData: {
-        "data": "Contoh doang anjay"
+        "data": "Tes periodic"
       }
     );
   }
 
+  Future<void> runOneOffTask() async {
+    await _workmanager.registerOneOffTask(
+      AppWorkmanager.oneOff.uniqueName,
+      AppWorkmanager.oneOff.taskName,
+      constraints: Constraints(
+        networkType: NetworkType.connected,
+      ),
+      initialDelay: Duration.zero,
+      inputData: {
+        "data": "Tes oneoff",
+      },
+    );
+  }
   Future<void> cancelTask() async {
     await _workmanager.cancelAll();
   }

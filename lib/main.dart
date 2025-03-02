@@ -103,13 +103,14 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() {
+    Future.microtask(() async {
       context.read<SharedPreferenceProvider>().getAppThemeModeValue();
-      context.read<WorkmanagerService>().runPeriodicTask();
+      context.read<LocalNotificationProvider>().requestPermission();
     });
   }
 
   @override
+
   Widget build(BuildContext context) {
     return DynamicColorBuilder(
       builder: (lightDynamic, darkDynamic) {

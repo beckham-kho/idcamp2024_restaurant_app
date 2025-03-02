@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:restaurant_app/providers/services/local_notification_provider.dart';
 import 'package:restaurant_app/screens/setting/notification_switch.dart';
 import 'package:restaurant_app/screens/setting/theme_toggle_button.dart';
+import 'package:restaurant_app/services/workmanager_service.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
@@ -39,7 +40,7 @@ class _SettingScreenState extends State<SettingScreen> {
               ),
               const SizedBox(height: 50),
               Text(
-                "Debug Testing",
+                "--- Debug Testing ---",
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox(height: 30),
@@ -47,20 +48,20 @@ class _SettingScreenState extends State<SettingScreen> {
                 builder: (context, value, child) {
                   return Column(
                     children: [
-                      ListTile(
-                        title: Text("Tes Permission"),
-                        trailing: ElevatedButton(
-                          onPressed: () {
-                            context.read<LocalNotificationProvider>().requestPermission(); 
-                          },
-                          child: Text(value.permission.toString())
-                        ),
-                      ),
+                      // ListTile(
+                      //   title: Text("Tes Permission"),
+                      //   trailing: ElevatedButton(
+                      //     onPressed: () {
+                      //       context.read<LocalNotificationProvider>().requestPermission(); 
+                      //     },
+                      //     child: Text(value.permission.toString())
+                      //   ),
+                      // ),
                       ListTile(
                         title: Text("Tes Notifikasi"),
                         trailing: ElevatedButton(
                           onPressed: () {
-                            context.read<LocalNotificationProvider>().showNotification("Kafe Kita"); 
+                            context.read<WorkmanagerService>().runOneOffTask(); 
                           },
                           child: Text("Tes")
                         ),

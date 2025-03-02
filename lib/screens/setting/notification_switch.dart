@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/providers/services/shared_preference_provider.dart';
+import 'package:restaurant_app/services/workmanager_service.dart';
 
 class NotificationSwitch extends StatefulWidget {
   const NotificationSwitch({
@@ -29,6 +30,12 @@ class _NotificationSwitchState extends State<NotificationSwitch> {
           onChanged: (isOn) {
             value.saveNotificationSettingValue(isOn);
             value.getNotificationSettingValue();
+
+            if(isOn == false) {
+              context.read<WorkmanagerService>().cancelTask();
+            } else {
+              context.read<WorkmanagerService>().runPeriodicTask();
+            }
           },
         );
       }
