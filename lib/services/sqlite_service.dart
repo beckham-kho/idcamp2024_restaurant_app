@@ -7,8 +7,7 @@ class SqliteService {
   static const int _version = 9;
 
   Future<void> createTables(Database database) async {
-    await database.execute(
-      """
+    await database.execute("""
       CREATE TABLE $_tableName (
         id TEXT,
         name TEXT,
@@ -17,8 +16,7 @@ class SqliteService {
         city TEXT,
         rating DOUBLE
       )
-      """
-    );
+      """);
   }
 
   Future<Database> _initializeDb() async {
@@ -40,7 +38,8 @@ class SqliteService {
 
   Future<Restaurant> readFavRestaurantsById(String id) async {
     final db = await _initializeDb();
-    final results = await db.query(_tableName, where: "id = ?", whereArgs: [id], limit: 1);
+    final results =
+        await db.query(_tableName, where: "id = ?", whereArgs: [id], limit: 1);
 
     return results.map((result) => Restaurant.fromJson(result)).first;
   }
@@ -48,14 +47,16 @@ class SqliteService {
   Future<int> createFavRestaurant(Restaurant restaurant) async {
     final db = await _initializeDb();
     final data = restaurant.toJson();
-    final id = await db.insert(_tableName, data, conflictAlgorithm: ConflictAlgorithm.replace);
-    
+    final id = await db.insert(_tableName, data,
+        conflictAlgorithm: ConflictAlgorithm.replace);
+
     return id;
   }
 
   Future<int> deleteFavRestaurant(String id) async {
     final db = await _initializeDb();
-    final result = await db.delete(_tableName, where: "id = ?", whereArgs: [id]);
+    final result =
+        await db.delete(_tableName, where: "id = ?", whereArgs: [id]);
 
     return result;
   }

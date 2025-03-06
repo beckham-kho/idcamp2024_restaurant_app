@@ -23,22 +23,20 @@ class _NotificationSwitchState extends State<NotificationSwitch> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<SharedPreferenceProvider>(
-      builder:(context, value, child) {
-        return Switch(
-          value: value.isOn,
-          onChanged: (isOn) {
-            value.saveNotificationSettingValue(isOn);
-            value.getNotificationSettingValue();
+    return Consumer<SharedPreferenceProvider>(builder: (context, value, child) {
+      return Switch(
+        value: value.isOn,
+        onChanged: (isOn) {
+          value.saveNotificationSettingValue(isOn);
+          value.getNotificationSettingValue();
 
-            if(isOn == false) {
-              context.read<WorkmanagerService>().cancelTask();
-            } else {
-              context.read<WorkmanagerService>().runPeriodicTask();
-            }
-          },
-        );
-      }
-    );
+          if (isOn == false) {
+            context.read<WorkmanagerService>().cancelTask();
+          } else {
+            context.read<WorkmanagerService>().runPeriodicTask();
+          }
+        },
+      );
+    });
   }
 }

@@ -71,13 +71,9 @@ void main() async {
           create: (context) => SharedPreferenceService(prefs),
         ),
         ChangeNotifierProvider(
-          create: (context) => SharedPreferenceProvider(
-            context.read<SharedPreferenceService>()
-          )
-        ),
-        Provider(
-          create: (context) => WorkmanagerService()..init()
-        ),
+            create: (context) => SharedPreferenceProvider(
+                context.read<SharedPreferenceService>())),
+        Provider(create: (context) => WorkmanagerService()..init()),
         Provider(
           create: (context) => LocalNotificationService()..init(),
         ),
@@ -110,11 +106,9 @@ class _MyAppState extends State<MyApp> {
   }
 
   @override
-
   Widget build(BuildContext context) {
     return DynamicColorBuilder(
       builder: (lightDynamic, darkDynamic) {
-
         return MaterialApp(
           title: 'Restaurant App',
           theme: RestoTheme.dynamicLightTheme(lightDynamic),
@@ -122,7 +116,8 @@ class _MyAppState extends State<MyApp> {
           themeMode: context.watch<SharedPreferenceProvider>().appThemeMode,
           initialRoute: NavigationRoute.mainRoute.name,
           routes: {
-            NavigationRoute.mainRoute.name: (context) => const NavigationBarWidget(),
+            NavigationRoute.mainRoute.name: (context) =>
+                const NavigationBarWidget(),
             NavigationRoute.homeRoute.name: (context) => const HomeScreen(),
             NavigationRoute.detailRoute.name: (context) => DetailScreen(
                   restaurantId:
@@ -138,5 +133,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-
-

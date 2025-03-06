@@ -24,67 +24,66 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.onPrimary,
-        title: Text(
-          "Restoran Favorit",
-          style: Theme.of(context).textTheme.headlineLarge,
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(16),
-          child: Column(
-            children: [
-              Consumer<DatabaseProvider>(
-                builder: (context, value, child) {
-                  if(value.restaurantList == null || value.restaurantList!.isEmpty) {
-                    return Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Lottie.asset(
-                            //ganti jadi animasi lain
-                            "assets/animation/error.json",
-                            width: 200,
-                            height: 200,
-                            repeat: true,
-                          ),
-                          Text("Kamu belum menambahkan restoran favorit"),
-                        ],
-                      ),
-                    );
-                  }
-
-                  final restaurantList = value.restaurantList!;
-                  return ListView.separated(
-                    separatorBuilder: (context, index) {
-                      return const SizedBox(height: 10);
-                    },
-                    shrinkWrap: true,
-                    scrollDirection: Axis.vertical,
-                    itemBuilder: (context, index) {
-                      final restaurant = restaurantList[index];
-                      return FavoriteCard(
-                        restaurant: restaurant,
-                        onTap: () {
-                          Navigator.pushNamed(
-                            context,
-                            NavigationRoute.detailRoute.name,
-                            arguments: restaurant.id,
-                          );
-                        },
-                      );
-                    },
-                    itemCount: restaurantList.length,
-                  );
-                },
-              )
-            ],
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.onPrimary,
+          title: Text(
+            "Restoran Favorit",
+            style: Theme.of(context).textTheme.headlineLarge,
           ),
         ),
-      )
-    );
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(16),
+            child: Column(
+              children: [
+                Consumer<DatabaseProvider>(
+                  builder: (context, value, child) {
+                    if (value.restaurantList == null ||
+                        value.restaurantList!.isEmpty) {
+                      return Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Lottie.asset(
+                              "assets/animation/error.json",
+                              width: 200,
+                              height: 200,
+                              repeat: true,
+                            ),
+                            Text("Kamu belum menambahkan restoran favorit"),
+                          ],
+                        ),
+                      );
+                    }
+
+                    final restaurantList = value.restaurantList!;
+                    return ListView.separated(
+                      separatorBuilder: (context, index) {
+                        return const SizedBox(height: 10);
+                      },
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      itemBuilder: (context, index) {
+                        final restaurant = restaurantList[index];
+                        return FavoriteCard(
+                          restaurant: restaurant,
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              NavigationRoute.detailRoute.name,
+                              arguments: restaurant.id,
+                            );
+                          },
+                        );
+                      },
+                      itemCount: restaurantList.length,
+                    );
+                  },
+                )
+              ],
+            ),
+          ),
+        ));
   }
 }

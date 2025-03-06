@@ -24,7 +24,7 @@ class _RestaurantDetailBodyState extends State<RestaurantDetailBody> {
       context.read<DatabaseProvider>().readAllFavRestaurantValue();
     });
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +54,8 @@ class _RestaurantDetailBodyState extends State<RestaurantDetailBody> {
                 snap: false,
                 flexibleSpace: FlexibleSpaceBar(
                   background: Hero(
-                    tag: 'restaurant-image-${widget.restaurantDetail.pictureId}',
+                    tag:
+                        'restaurant-image-${widget.restaurantDetail.pictureId}',
                     child: Image.network(
                       "https://restaurant-api.dicoding.dev/images/small/${widget.restaurantDetail.pictureId}",
                       fit: BoxFit.cover,
@@ -65,7 +66,8 @@ class _RestaurantDetailBodyState extends State<RestaurantDetailBody> {
             ),
           ];
         },
-        body: RestaurantDetailContent(restaurantDetail: widget.restaurantDetail),
+        body:
+            RestaurantDetailContent(restaurantDetail: widget.restaurantDetail),
       ),
     );
   }

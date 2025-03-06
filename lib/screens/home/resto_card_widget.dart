@@ -116,7 +116,8 @@ class _RestoCardState extends State<RestoCard> {
                 top: 0,
                 right: 0,
                 child: ClipRRect(
-                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15)),
+                  borderRadius:
+                      BorderRadius.only(bottomLeft: Radius.circular(15)),
                   child: Container(
                     decoration: BoxDecoration(
                       gradient: LinearGradient(

@@ -21,7 +21,7 @@ class DatabaseProvider extends ChangeNotifier {
       _restaurantList = await _service.readAllFavRestaurants();
       _message = "Semua data restoran favorit berhasil dimuat";
       notifyListeners();
-    } catch(e) {
+    } catch (e) {
       _message = "Gagal memuat seluruh data restoran favorit :(";
       notifyListeners();
     }
@@ -32,7 +32,7 @@ class DatabaseProvider extends ChangeNotifier {
       _restaurant = await _service.readFavRestaurantsById(id);
       _message = "Data restoran $name berhasil dimuat";
       notifyListeners();
-    } catch(e) {
+    } catch (e) {
       _message = "Gagal memuat data restoran $name :(";
       notifyListeners();
     }
@@ -43,14 +43,14 @@ class DatabaseProvider extends ChangeNotifier {
       final result = await _service.createFavRestaurant(value);
       final isError = result == 0;
 
-      if(isError) {
+      if (isError) {
         _message = 'Gagal menyimpan data restoran "${value.name}" :(';
         notifyListeners();
       } else {
         _message = 'Berhasil menyimpan data restoran "${value.name}"';
         notifyListeners();
       }
-    } catch(e) {
+    } catch (e) {
       _message = 'Gagal menyimpan data restoran "${value.name}" :(';
       notifyListeners();
     }
@@ -61,13 +61,16 @@ class DatabaseProvider extends ChangeNotifier {
       await _service.deleteFavRestaurant(id);
       _message = 'Data restoran "$name" berhasil dihapus';
       notifyListeners();
-    } catch(e) {
+    } catch (e) {
       _message = 'Gagal menghapus data restoran "$name" :(';
       notifyListeners();
     }
   }
 
   bool isFavRestaurant(String id) {
-    return _restaurantList?.where((restaurant) => restaurant.id == id).isNotEmpty ?? false;
+    return _restaurantList
+            ?.where((restaurant) => restaurant.id == id)
+            .isNotEmpty ??
+        false;
   }
 }

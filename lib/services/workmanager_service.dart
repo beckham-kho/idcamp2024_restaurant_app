@@ -11,14 +11,16 @@ import 'package:workmanager/workmanager.dart';
 @pragma('vm:entry-point')
 void callbackDispatcher() {
   Workmanager().executeTask((task, inputData) async {
-    if(task == AppWorkmanager.periodic.taskName || task == AppWorkmanager.oneOff.taskName) {
+    if (task == AppWorkmanager.periodic.taskName ||
+        task == AppWorkmanager.oneOff.taskName) {
       var restaurantNames = [];
       final apiServices = ApiServices();
       final restoListProvider = RestoListProvider(apiServices);
 
       final flutterNotificationService = LocalNotificationService();
-      final localNotificationProvider = LocalNotificationProvider(flutterNotificationService);
-      
+      final localNotificationProvider =
+          LocalNotificationProvider(flutterNotificationService);
+
       await restoListProvider.fetchRestoList();
       final resultState = restoListProvider.resultState;
 
@@ -26,9 +28,10 @@ void callbackDispatcher() {
         for (var restaurant in resultState.data) {
           restaurantNames.add(restaurant.name);
         }
-        final randomRestaurantNameIndex = Random().nextInt(restaurantNames.length - 1);
+        final randomRestaurantNameIndex =
+            Random().nextInt(restaurantNames.length - 1);
         final randomRestaurant = restaurantNames[randomRestaurantNameIndex];
-        if(DateTime.now().hour == 11) {
+        if (DateTime.now().hour == 11) {
           localNotificationProvider.showNotification(randomRestaurant);
         }
       } else if (resultState is RestoListErrorState) {
@@ -42,7 +45,8 @@ void callbackDispatcher() {
 class WorkmanagerService {
   final Workmanager _workmanager;
 
-  WorkmanagerService([Workmanager? workmanager]) : _workmanager = workmanager ??= Workmanager();
+  WorkmanagerService([Workmanager? workmanager])
+      : _workmanager = workmanager ??= Workmanager();
 
   Future<void> init() async {
     await _workmanager.initialize(callbackDispatcher, isInDebugMode: true);
@@ -50,14 +54,11 @@ class WorkmanagerService {
 
   Future<void> runPeriodicTask() async {
     await _workmanager.registerPeriodicTask(
-      AppWorkmanager.periodic.uniqueName,
-      AppWorkmanager.periodic.taskName,
-      frequency: const Duration(hours: 1),
-      initialDelay: Duration(minutes: 60) - Duration(minutes: DateTime.now().minute),
-      inputData: {
-        "data": "Tes periodic"
-      }
-    );
+        AppWorkmanager.periodic.uniqueName, AppWorkmanager.periodic.taskName,
+        frequency: const Duration(hours: 1),
+        initialDelay:
+            Duration(minutes: 60) - Duration(minutes: DateTime.now().minute),
+        inputData: {"data": "Tes periodic"});
   }
 
   Future<void> runOneOffTask() async {
@@ -73,6 +74,7 @@ class WorkmanagerService {
       },
     );
   }
+
   Future<void> cancelTask() async {
     await _workmanager.cancelAll();
   }

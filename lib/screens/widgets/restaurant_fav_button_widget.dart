@@ -16,28 +16,33 @@ class RestaurantFavButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: () async {
-        final convertedRestaurant = 
-          Restaurant(
-            id: restaurant.id,
-            name: restaurant.name,
-            description: restaurant.description,
-            pictureId: restaurant.pictureId,
-            city: restaurant.city,
-            rating: restaurant.rating,
-          );
+        final convertedRestaurant = Restaurant(
+          id: restaurant.id,
+          name: restaurant.name,
+          description: restaurant.description,
+          pictureId: restaurant.pictureId,
+          city: restaurant.city,
+          rating: restaurant.rating,
+        );
 
         final databaseProvider = context.read<DatabaseProvider>();
         final isFav = await databaseProvider.isFavRestaurant(restaurant.id);
-    
+
         if (!isFav) {
-          await databaseProvider.createFavRestaurantValue(restaurant is RestaurantDetail ? convertedRestaurant : restaurant);
+          await databaseProvider.createFavRestaurantValue(
+              restaurant is RestaurantDetail
+                  ? convertedRestaurant
+                  : restaurant);
         } else {
-          await databaseProvider.deleteFavRestaurantValueById(restaurant.id, restaurant.name);
+          await databaseProvider.deleteFavRestaurantValueById(
+              restaurant.id, restaurant.name);
         }
         databaseProvider.readAllFavRestaurantValue();
       },
       icon: Icon(
-        context.watch<DatabaseProvider>().isFavRestaurant(restaurant.id) ? Icons.favorite_rounded : Icons.favorite_outline_rounded,
+        context.watch<DatabaseProvider>().isFavRestaurant(restaurant.id)
+            ? Icons.favorite_rounded
+            : Icons.favorite_outline_rounded,
         color: Colors.red,
         size: 30,
       ),
