@@ -31,8 +31,9 @@ class PostRatingProvider extends ChangeNotifier {
         notifyListeners();
       }
     } on Exception catch (_) {
-      _resultState =
-          PostRatingErrorState("Terjadi kesalahan. Silakan coba lagi :(");
+      _resultState = PostRatingErrorState(
+        "Terjadi kesalahan. Silakan coba lagi :(",
+      );
       notifyListeners();
     }
   }

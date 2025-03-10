@@ -18,8 +18,9 @@ void callbackDispatcher() {
       final restoListProvider = RestoListProvider(apiServices);
 
       final flutterNotificationService = LocalNotificationService();
-      final localNotificationProvider =
-          LocalNotificationProvider(flutterNotificationService);
+      final localNotificationProvider = LocalNotificationProvider(
+        flutterNotificationService,
+      );
 
       await restoListProvider.fetchRestoList();
       final resultState = restoListProvider.resultState;
@@ -28,8 +29,9 @@ void callbackDispatcher() {
         for (var restaurant in resultState.data) {
           restaurantNames.add(restaurant.name);
         }
-        final randomRestaurantNameIndex =
-            Random().nextInt(restaurantNames.length - 1);
+        final randomRestaurantNameIndex = Random().nextInt(
+          restaurantNames.length - 1,
+        );
         final randomRestaurant = restaurantNames[randomRestaurantNameIndex];
         if (DateTime.now().hour == 11) {
           localNotificationProvider.showNotification(randomRestaurant);
@@ -46,7 +48,7 @@ class WorkmanagerService {
   final Workmanager _workmanager;
 
   WorkmanagerService([Workmanager? workmanager])
-      : _workmanager = workmanager ??= Workmanager();
+    : _workmanager = workmanager ??= Workmanager();
 
   Future<void> init() async {
     await _workmanager.initialize(callbackDispatcher, isInDebugMode: true);
@@ -54,24 +56,21 @@ class WorkmanagerService {
 
   Future<void> runPeriodicTask() async {
     await _workmanager.registerPeriodicTask(
-        AppWorkmanager.periodic.uniqueName, AppWorkmanager.periodic.taskName,
-        frequency: const Duration(hours: 1),
-        initialDelay:
-            Duration(minutes: 60) - Duration(minutes: DateTime.now().minute),
-        inputData: {"data": "Tes periodic"});
+      AppWorkmanager.periodic.uniqueName,
+      AppWorkmanager.periodic.taskName,
+      frequency: const Duration(hours: 24),
+      initialDelay: Duration(hours: DateTime.now().hour) - Duration(hours: 11),
+      inputData: {"data": "Tes periodic"},
+    );
   }
 
   Future<void> runOneOffTask() async {
     await _workmanager.registerOneOffTask(
       AppWorkmanager.oneOff.uniqueName,
       AppWorkmanager.oneOff.taskName,
-      constraints: Constraints(
-        networkType: NetworkType.connected,
-      ),
+      constraints: Constraints(networkType: NetworkType.connected),
       initialDelay: Duration.zero,
-      inputData: {
-        "data": "Tes oneoff",
-      },
+      inputData: {"data": "Tes oneoff"},
     );
   }
 

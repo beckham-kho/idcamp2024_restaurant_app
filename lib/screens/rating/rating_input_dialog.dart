@@ -12,12 +12,10 @@ class RatingInputDialog extends StatefulWidget {
   final TextEditingController _reviewController;
   final String _restaurantId;
 
-  RatingInputDialog({
-    super.key,
-    required String restaurantId,
-  })  : _restaurantId = restaurantId,
-        _nameController = TextEditingController(),
-        _reviewController = TextEditingController();
+  RatingInputDialog({super.key, required String restaurantId})
+    : _restaurantId = restaurantId,
+      _nameController = TextEditingController(),
+      _reviewController = TextEditingController();
 
   @override
   State<RatingInputDialog> createState() => _RatingInputDialogState();
@@ -29,36 +27,36 @@ class _RatingInputDialogState extends State<RatingInputDialog> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      child: Container(
-        padding: const EdgeInsets.all(30),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              "Berikan ratingmu!",
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            const SizedBox(height: 20),
-            RatingBar.builder(
-              initialRating: 5,
-              minRating: 1,
-              direction: Axis.horizontal,
-              itemCount: 5,
-              itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-              itemBuilder: (context, _) => Icon(
-                Icons.star_rounded,
-                color: Colors.amber,
+      child: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.all(30),
+          height: MediaQuery.of(context).size.height * 0.6,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                "Berikan ratingmu!",
+                style: Theme.of(context).textTheme.titleLarge,
               ),
-              onRatingUpdate: (rating) {
-                print(rating);
-              },
-            ),
-            const SizedBox(height: 20),
-            Consumer<TextEditingControllerProvider>(
-              builder: (context, value, child) {
-                return Form(
+              const SizedBox(height: 20),
+              RatingBar.builder(
+                initialRating: 5,
+                minRating: 1,
+                direction: Axis.horizontal,
+                itemCount: 5,
+                itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                itemBuilder:
+                    (context, _) =>
+                        Icon(Icons.star_rounded, color: Colors.amber),
+                onRatingUpdate: (rating) {
+                  print(rating);
+                },
+              ),
+              const SizedBox(height: 20),
+              Consumer<TextEditingControllerProvider>(
+                builder: (context, value, child) {
+                  return Form(
                     key: _reviewFormKey,
                     child: Column(
                       children: [
@@ -69,16 +67,19 @@ class _RatingInputDialogState extends State<RatingInputDialog> {
                             }
                             return null;
                           },
-                          onChanged: (value) => context
-                              .read<TextEditingControllerProvider>()
-                              .setNameController(value),
+                          onChanged:
+                              (value) => context
+                                  .read<TextEditingControllerProvider>()
+                                  .setNameController(value),
                           controller: widget._nameController,
                           decoration: const InputDecoration(
-                              hintText: 'Masukan nama',
-                              border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                              )),
+                            hintText: 'Masukan nama',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10),
+                              ),
+                            ),
+                          ),
                         ),
                         const SizedBox(height: 20),
                         TextFormField(
@@ -88,86 +89,91 @@ class _RatingInputDialogState extends State<RatingInputDialog> {
                             }
                             return null;
                           },
-                          onChanged: (value) => context
-                              .read<TextEditingControllerProvider>()
-                              .setReviewController(value),
+                          onChanged:
+                              (value) => context
+                                  .read<TextEditingControllerProvider>()
+                                  .setReviewController(value),
                           controller: widget._reviewController,
                           maxLines: 4,
                           decoration: const InputDecoration(
-                              hintText: 'Masukan ulasan',
-                              border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                              )),
+                            hintText: 'Masukan ulasan',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10),
+                              ),
+                            ),
+                          ),
                         ),
                         const SizedBox(height: 20),
                         Consumer<PostRatingProvider>(
                           builder: (context, value, child) {
                             return switch (value.resultState) {
                               PostRatingNoneState() => ElevatedButton(
-                                  style: ButtonStyle(
-                                      backgroundColor: WidgetStateProperty.all(
+                                style: ButtonStyle(
+                                  backgroundColor: WidgetStateProperty.all(
                                     Theme.of(context).colorScheme.primary,
-                                  )),
-                                  onPressed: () {
-                                    if (_reviewFormKey.currentState!
-                                        .validate()) {
+                                  ),
+                                ),
+                                onPressed: () {
+                                  if (_reviewFormKey.currentState!.validate()) {
+                                    context
+                                        .read<PostRatingProvider>()
+                                        .postRating(
+                                          widget._restaurantId,
+                                          widget._nameController.text,
+                                          widget._reviewController.text,
+                                        );
+                                    Future.delayed(Duration(seconds: 3), () {
+                                      Navigator.pop(context);
                                       context
                                           .read<PostRatingProvider>()
-                                          .postRating(
-                                              widget._restaurantId,
-                                              widget._nameController.text,
-                                              widget._reviewController.text);
-                                      Future.delayed(Duration(seconds: 3), () {
-                                        Navigator.pop(context);
-                                        context
-                                            .read<PostRatingProvider>()
-                                            .setResultState(
-                                                PostRatingNoneState());
-                                        context
-                                            .read<
-                                                TextEditingControllerProvider>()
-                                            .setNameController("");
-                                        context
-                                            .read<
-                                                TextEditingControllerProvider>()
-                                            .setNameController("");
-                                      });
-                                    }
-                                  },
-                                  child: Text(
-                                    "Kirim",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge
-                                        ?.copyWith(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onPrimary,
-                                        ),
+                                          .setResultState(
+                                            PostRatingNoneState(),
+                                          );
+                                      context
+                                          .read<TextEditingControllerProvider>()
+                                          .setNameController("");
+                                      context
+                                          .read<TextEditingControllerProvider>()
+                                          .setNameController("");
+                                    });
+                                  }
+                                },
+                                child: Text(
+                                  "Kirim",
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.bodyLarge?.copyWith(
+                                    color:
+                                        Theme.of(context).colorScheme.onPrimary,
                                   ),
                                 ),
+                              ),
                               PostRatingLoadingState() => Center(
-                                  child: Lottie.asset(
-                                    "assets/animation/loading.json",
-                                    repeat: true,
-                                    height: 70,
-                                    width: 70,
-                                  ),
+                                child: Lottie.asset(
+                                  "assets/animation/loading.json",
+                                  repeat: true,
+                                  height: 70,
+                                  width: 70,
                                 ),
+                              ),
                               PostRatingSuccessState() => Text(
-                                  "Ulasan terkirim!",
-                                  style: Theme.of(context).textTheme.bodyLarge),
-                              PostRatingErrorState(error: var message) =>
-                                Text(message),
+                                "Ulasan terkirim!",
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
+                              PostRatingErrorState(error: var message) => Text(
+                                message,
+                              ),
                             };
                           },
                         ),
                       ],
-                    ));
-              },
-            ),
-          ],
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

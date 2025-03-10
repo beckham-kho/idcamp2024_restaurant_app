@@ -71,42 +71,27 @@ class _RestoCardState extends State<RestoCard> {
                           children: [
                             Text(
                               widget.restaurant.name,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleLarge
-                                  ?.copyWith(
-                                    color: Colors.white,
-                                  ),
+                              style: Theme.of(context).textTheme.titleLarge
+                                  ?.copyWith(color: Colors.white),
                             ),
                             Text(
                               widget.restaurant.city,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium
-                                  ?.copyWith(
-                                    color: Colors.white,
-                                  ),
+                              style: Theme.of(context).textTheme.titleMedium
+                                  ?.copyWith(color: Colors.white),
                             ),
                           ],
                         ),
                         Row(
                           children: [
-                            Icon(
-                              Icons.star_rounded,
-                              color: Colors.yellow,
-                            ),
+                            Icon(Icons.star_rounded, color: Colors.yellow),
                             const SizedBox(width: 2),
                             Text(
                               widget.restaurant.rating.toString(),
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleLarge
-                                  ?.copyWith(
-                                    color: Colors.white,
-                                  ),
+                              style: Theme.of(context).textTheme.titleLarge
+                                  ?.copyWith(color: Colors.white),
                             ),
                           ],
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -116,8 +101,9 @@ class _RestoCardState extends State<RestoCard> {
                 top: 0,
                 right: 0,
                 child: ClipRRect(
-                  borderRadius:
-                      BorderRadius.only(bottomLeft: Radius.circular(15)),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(15),
+                  ),
                   child: Container(
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
@@ -133,7 +119,7 @@ class _RestoCardState extends State<RestoCard> {
                     child: RestaurantFavButton(restaurant: widget.restaurant),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),

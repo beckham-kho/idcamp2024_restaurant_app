@@ -30,57 +30,41 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        Provider<ApiServices>(
-          create: (_) => ApiServices(),
+        Provider<ApiServices>(create: (_) => ApiServices()),
+        ChangeNotifierProvider(
+          create: (context) => RestoListProvider(context.read<ApiServices>()),
         ),
         ChangeNotifierProvider(
-          create: (context) => RestoListProvider(
-            context.read<ApiServices>(),
-          ),
+          create: (context) => RestoDetailProvider(context.read<ApiServices>()),
         ),
         ChangeNotifierProvider(
-          create: (context) => RestoDetailProvider(
-            context.read<ApiServices>(),
-          ),
+          create: (context) => PostRatingProvider(context.read<ApiServices>()),
         ),
         ChangeNotifierProvider(
-          create: (context) => PostRatingProvider(
-            context.read<ApiServices>(),
-          ),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => SearchRestoProvider(
-            context.read<ApiServices>(),
-          ),
+          create: (context) => SearchRestoProvider(context.read<ApiServices>()),
         ),
         ChangeNotifierProvider(
           create: (context) => TextEditingControllerProvider(),
         ),
+        ChangeNotifierProvider(create: (context) => NavigationProvider()),
+        Provider(create: (context) => SqliteService()),
         ChangeNotifierProvider(
-          create: (context) => NavigationProvider(),
+          create: (context) => DatabaseProvider(context.read<SqliteService>()),
         ),
-        Provider(
-          create: (context) => SqliteService(),
-        ),
+        Provider(create: (context) => SharedPreferenceService(prefs)),
         ChangeNotifierProvider(
-          create: (context) => DatabaseProvider(
-            context.read<SqliteService>(),
-          ),
+          create:
+              (context) => SharedPreferenceProvider(
+                context.read<SharedPreferenceService>(),
+              ),
         ),
-        Provider(
-          create: (context) => SharedPreferenceService(prefs),
-        ),
-        ChangeNotifierProvider(
-            create: (context) => SharedPreferenceProvider(
-                context.read<SharedPreferenceService>())),
         Provider(create: (context) => WorkmanagerService()..init()),
-        Provider(
-          create: (context) => LocalNotificationService()..init(),
-        ),
+        Provider(create: (context) => LocalNotificationService()..init()),
         ChangeNotifierProvider(
-          create: (context) => LocalNotificationProvider(
-            context.read<LocalNotificationService>(),
-          )..requestPermission(),
+          create:
+              (context) => LocalNotificationProvider(
+                context.read<LocalNotificationService>(),
+              )..requestPermission(),
         ),
       ],
       child: const MyApp(),
@@ -101,7 +85,6 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     Future.microtask(() async {
       context.read<SharedPreferenceProvider>().getAppThemeModeValue();
-      context.read<LocalNotificationProvider>().requestPermission();
     });
   }
 
@@ -116,14 +99,16 @@ class _MyAppState extends State<MyApp> {
           themeMode: context.watch<SharedPreferenceProvider>().appThemeMode,
           initialRoute: NavigationRoute.mainRoute.name,
           routes: {
-            NavigationRoute.mainRoute.name: (context) =>
-                const NavigationBarWidget(),
+            NavigationRoute.mainRoute.name:
+                (context) => const NavigationBarWidget(),
             NavigationRoute.homeRoute.name: (context) => const HomeScreen(),
-            NavigationRoute.detailRoute.name: (context) => DetailScreen(
+            NavigationRoute.detailRoute.name:
+                (context) => DetailScreen(
                   restaurantId:
                       ModalRoute.of(context)?.settings.arguments as String,
                 ),
-            NavigationRoute.ratingRoute.name: (context) => RatingScreen(
+            NavigationRoute.ratingRoute.name:
+                (context) => RatingScreen(
                   restaurantId:
                       ModalRoute.of(context)?.settings.arguments as String,
                 ),

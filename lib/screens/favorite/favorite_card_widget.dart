@@ -32,46 +32,48 @@ class _FavoriteCardState extends State<FavoriteCard> {
     return GestureDetector(
       onTap: widget.onTap,
       child: Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-              border: Border.all(
-                  color: Theme.of(context).colorScheme.outline, width: .5),
-              borderRadius: BorderRadius.all(Radius.circular(10))),
-          child: Row(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(5)),
-                child: Image.network(
-                  width: 120,
-                  height: 68,
-                  "https://restaurant-api.dicoding.dev/images/small/${widget.restaurant.pictureId}",
-                  fit: BoxFit.cover,
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Theme.of(context).colorScheme.outline,
+            width: .5,
+          ),
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+        ),
+        child: Row(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(5)),
+              child: Image.network(
+                width: 120,
+                height: 68,
+                "https://restaurant-api.dicoding.dev/images/small/${widget.restaurant.pictureId}",
+                fit: BoxFit.cover,
+              ),
+            ),
+            const SizedBox(width: 10),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(widget.restaurant.name),
+                Text(widget.restaurant.city),
+                Row(
+                  children: [
+                    Icon(Icons.star_rounded, color: Colors.yellow, size: 18),
+                    const SizedBox(width: 2),
+                    Text(
+                      widget.restaurant.rating.toString(),
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                  ],
                 ),
-              ),
-              const SizedBox(width: 10),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(widget.restaurant.name),
-                  Text(widget.restaurant.city),
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.star_rounded,
-                        color: Colors.yellow,
-                        size: 18,
-                      ),
-                      const SizedBox(width: 2),
-                      Text(widget.restaurant.rating.toString(),
-                          style: Theme.of(context).textTheme.titleMedium),
-                    ],
-                  )
-                ],
-              ),
-              Spacer(),
-              RestaurantFavButton(restaurant: widget.restaurant),
-            ],
-          )),
+              ],
+            ),
+            Spacer(),
+            RestaurantFavButton(restaurant: widget.restaurant),
+          ],
+        ),
+      ),
     );
   }
 }

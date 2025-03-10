@@ -3,9 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:restaurant_app/providers/services/shared_preference_provider.dart';
 
 class ThemeToggleButton extends StatefulWidget {
-  const ThemeToggleButton({
-    super.key,
-  });
+  const ThemeToggleButton({super.key});
 
   @override
   State<ThemeToggleButton> createState() => _ThemeToggleButtonState();
@@ -54,12 +52,21 @@ class _ThemeToggleButtonState extends State<ThemeToggleButton> {
             isThemeModeSelected[index] = true;
           },
           children: [
-            Icon(Icons.wb_sunny_rounded,
-                color: Theme.of(context).colorScheme.primary, size: 24),
-            Icon(Icons.nightlight_rounded,
-                color: Theme.of(context).colorScheme.primary, size: 24),
-            Icon(Icons.phone_android_rounded,
-                color: Theme.of(context).colorScheme.primary, size: 24),
+            Icon(
+              Icons.wb_sunny_rounded,
+              color: Theme.of(context).colorScheme.primary,
+              size: 24,
+            ),
+            Icon(
+              Icons.nightlight_rounded,
+              color: Theme.of(context).colorScheme.primary,
+              size: 24,
+            ),
+            Icon(
+              Icons.phone_android_rounded,
+              color: Theme.of(context).colorScheme.primary,
+              size: 24,
+            ),
           ],
         );
       },

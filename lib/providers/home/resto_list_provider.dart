@@ -26,8 +26,9 @@ class RestoListProvider extends ChangeNotifier {
         notifyListeners();
       }
     } on Exception catch (_) {
-      _resultState =
-          RestoListErrorState("Terjadi kesalahan. Silakan coba lagi :(");
+      _resultState = RestoListErrorState(
+        "Terjadi kesalahan. Silakan coba lagi :(",
+      );
       notifyListeners();
     }
   }

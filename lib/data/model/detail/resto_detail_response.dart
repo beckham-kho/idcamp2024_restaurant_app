@@ -22,10 +22,10 @@ class RestoDetailResponse {
       );
 
   Map<String, dynamic> toJson() => {
-        "error": error,
-        "message": message,
-        "restaurant": restaurantDetail.toJson(),
-      };
+    "error": error,
+    "message": message,
+    "restaurant": restaurantDetail.toJson(),
+  };
 }
 
 class RestaurantDetail extends Restaurant {
@@ -56,24 +56,27 @@ class RestaurantDetail extends Restaurant {
         address: json["address"],
         pictureId: json["pictureId"],
         categories: List<Category>.from(
-            json["categories"].map((x) => Category.fromJson(x))),
+          json["categories"].map((x) => Category.fromJson(x)),
+        ),
         menus: Menus.fromJson(json["menus"]),
         rating: json["rating"]?.toDouble(),
         customerReviews: List<CustomerReview>.from(
-            json["customerReviews"].map((x) => CustomerReview.fromJson(x))),
+          json["customerReviews"].map((x) => CustomerReview.fromJson(x)),
+        ),
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "description": description,
-        "city": city,
-        "address": address,
-        "pictureId": pictureId,
-        "categories": List<dynamic>.from(categories.map((x) => x.toJson())),
-        "menus": menus.toJson(),
-        "rating": rating,
-        "customerReviews":
-            List<dynamic>.from(customerReviews.map((x) => x.toJson())),
-      };
+    "id": id,
+    "name": name,
+    "description": description,
+    "city": city,
+    "address": address,
+    "pictureId": pictureId,
+    "categories": List<dynamic>.from(categories.map((x) => x.toJson())),
+    "menus": menus.toJson(),
+    "rating": rating,
+    "customerReviews": List<dynamic>.from(
+      customerReviews.map((x) => x.toJson()),
+    ),
+  };
 }

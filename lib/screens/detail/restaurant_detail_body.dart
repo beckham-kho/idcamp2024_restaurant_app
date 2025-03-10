@@ -7,10 +7,7 @@ import 'package:restaurant_app/screens/widgets/restaurant_fav_button_widget.dart
 
 class RestaurantDetailBody extends StatefulWidget {
   final RestaurantDetail restaurantDetail;
-  const RestaurantDetailBody({
-    super.key,
-    required this.restaurantDetail,
-  });
+  const RestaurantDetailBody({super.key, required this.restaurantDetail});
 
   @override
   State<RestaurantDetailBody> createState() => _RestaurantDetailBodyState();
@@ -41,7 +38,7 @@ class _RestaurantDetailBodyState extends State<RestaurantDetailBody> {
                     Shadow(
                       blurRadius: 15,
                       color: Theme.of(context).colorScheme.secondary,
-                    )
+                    ),
                   ],
                   color: Theme.of(context).colorScheme.onSecondary,
                 ),
@@ -66,8 +63,9 @@ class _RestaurantDetailBodyState extends State<RestaurantDetailBody> {
             ),
           ];
         },
-        body:
-            RestaurantDetailContent(restaurantDetail: widget.restaurantDetail),
+        body: RestaurantDetailContent(
+          restaurantDetail: widget.restaurantDetail,
+        ),
       ),
     );
   }

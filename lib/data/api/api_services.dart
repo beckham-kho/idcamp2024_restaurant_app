@@ -29,12 +29,13 @@ class ApiServices {
   }
 
   Future<CustomerRatingResponse> postReview(
-      String id, String name, String review) async {
+    String id,
+    String name,
+    String review,
+  ) async {
     final response = await http.post(
       Uri.parse("$_baseUrl/review"),
-      headers: <String, String>{
-        'Content-Type': 'application/json',
-      },
+      headers: <String, String>{'Content-Type': 'application/json'},
       body: jsonEncode(<String, String>{
         'id': id,
         'name': name,
@@ -44,7 +45,8 @@ class ApiServices {
 
     if (response.statusCode == 201) {
       return CustomerRatingResponse.fromJson(
-          jsonDecode(response.body) as Map<String, dynamic>);
+        jsonDecode(response.body) as Map<String, dynamic>,
+      );
     } else {
       throw Exception('Gagal mengirim ulasanmu :(');
     }

@@ -5,10 +5,7 @@ import 'package:restaurant_app/data/model/general/restaurant.dart';
 import 'package:restaurant_app/providers/services/database_provider.dart';
 
 class RestaurantFavButton extends StatelessWidget {
-  const RestaurantFavButton({
-    super.key,
-    required this.restaurant,
-  });
+  const RestaurantFavButton({super.key, required this.restaurant});
 
   final Restaurant restaurant;
 
@@ -30,12 +27,13 @@ class RestaurantFavButton extends StatelessWidget {
 
         if (!isFav) {
           await databaseProvider.createFavRestaurantValue(
-              restaurant is RestaurantDetail
-                  ? convertedRestaurant
-                  : restaurant);
+            restaurant is RestaurantDetail ? convertedRestaurant : restaurant,
+          );
         } else {
           await databaseProvider.deleteFavRestaurantValueById(
-              restaurant.id, restaurant.name);
+            restaurant.id,
+            restaurant.name,
+          );
         }
         databaseProvider.readAllFavRestaurantValue();
       },
