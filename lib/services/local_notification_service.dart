@@ -24,8 +24,7 @@ class LocalNotificationService {
   Future<bool> _isAndroidPermissionGranted() async {
     return await flutterLocalNotificationsPlugin
             .resolvePlatformSpecificImplementation<
-              AndroidFlutterLocalNotificationsPlugin
-            >()
+                AndroidFlutterLocalNotificationsPlugin>()
             ?.areNotificationsEnabled() ??
         false;
   }
@@ -33,8 +32,7 @@ class LocalNotificationService {
   Future<bool> _requestAndroidNotificationsPermission() async {
     return await flutterLocalNotificationsPlugin
             .resolvePlatformSpecificImplementation<
-              AndroidFlutterLocalNotificationsPlugin
-            >()
+                AndroidFlutterLocalNotificationsPlugin>()
             ?.requestNotificationsPermission() ??
         false;
   }
@@ -42,10 +40,8 @@ class LocalNotificationService {
   Future<bool?> requestPermissions() async {
     if (defaultTargetPlatform == TargetPlatform.iOS) {
       final iOSImplementation =
-          flutterLocalNotificationsPlugin
-              .resolvePlatformSpecificImplementation<
-                IOSFlutterLocalNotificationsPlugin
-              >();
+          flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
+              IOSFlutterLocalNotificationsPlugin>();
       return await iOSImplementation?.requestPermissions(
         alert: true,
         badge: true,

@@ -29,31 +29,31 @@ class _RatingScreenState extends State<RatingScreen> {
         builder: (context, value, child) {
           return switch (value.resultState) {
             RestoDetailLoadingState() => Center(
-              child: Lottie.asset(
-                "assets/animation/loading.json",
-                repeat: true,
-                height: 200,
-                width: 200,
+                child: Lottie.asset(
+                  "assets/animation/loading.json",
+                  repeat: true,
+                  height: 200,
+                  width: 200,
+                ),
               ),
-            ),
             RestoDetailLoadedState(data: var restaurant) => RatingScreenBody(
-              restaurantDetail: restaurant,
-            ),
-            RestoDetailErrorState(error: var message) => Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Lottie.asset(
-                    "assets/animation/error.json",
-                    width: 200,
-                    height: 200,
-                    repeat: true,
-                  ),
-                  Text(message),
-                ],
+                restaurantDetail: restaurant,
               ),
-            ),
+            RestoDetailErrorState(error: var message) => Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Lottie.asset(
+                      "assets/animation/error.json",
+                      width: 200,
+                      height: 200,
+                      repeat: true,
+                    ),
+                    Text(message),
+                  ],
+                ),
+              ),
             _ => const SizedBox(),
           };
         },

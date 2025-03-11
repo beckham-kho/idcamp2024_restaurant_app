@@ -13,9 +13,9 @@ class RatingInputDialog extends StatefulWidget {
   final String _restaurantId;
 
   RatingInputDialog({super.key, required String restaurantId})
-    : _restaurantId = restaurantId,
-      _nameController = TextEditingController(),
-      _reviewController = TextEditingController();
+      : _restaurantId = restaurantId,
+        _nameController = TextEditingController(),
+        _reviewController = TextEditingController();
 
   @override
   State<RatingInputDialog> createState() => _RatingInputDialogState();
@@ -29,11 +29,12 @@ class _RatingInputDialogState extends State<RatingInputDialog> {
     return Dialog(
       child: SingleChildScrollView(
         child: Container(
-          padding: const EdgeInsets.all(30),
           height: MediaQuery.of(context).size.height * 0.6,
+          padding: const EdgeInsets.all(30),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
             children: [
               Text(
                 "Berikan ratingmu!",
@@ -45,10 +46,9 @@ class _RatingInputDialogState extends State<RatingInputDialog> {
                 minRating: 1,
                 direction: Axis.horizontal,
                 itemCount: 5,
-                itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                itemBuilder:
-                    (context, _) =>
-                        Icon(Icons.star_rounded, color: Colors.amber),
+                itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
+                itemBuilder: (context, _) =>
+                    Icon(Icons.star_rounded, color: Colors.amber),
                 onRatingUpdate: (rating) {
                   print(rating);
                 },
@@ -67,10 +67,9 @@ class _RatingInputDialogState extends State<RatingInputDialog> {
                             }
                             return null;
                           },
-                          onChanged:
-                              (value) => context
-                                  .read<TextEditingControllerProvider>()
-                                  .setNameController(value),
+                          onChanged: (value) => context
+                              .read<TextEditingControllerProvider>()
+                              .setNameController(value),
                           controller: widget._nameController,
                           decoration: const InputDecoration(
                             hintText: 'Masukan nama',
@@ -89,10 +88,9 @@ class _RatingInputDialogState extends State<RatingInputDialog> {
                             }
                             return null;
                           },
-                          onChanged:
-                              (value) => context
-                                  .read<TextEditingControllerProvider>()
-                                  .setReviewController(value),
+                          onChanged: (value) => context
+                              .read<TextEditingControllerProvider>()
+                              .setReviewController(value),
                           controller: widget._reviewController,
                           maxLines: 4,
                           decoration: const InputDecoration(
@@ -109,61 +107,65 @@ class _RatingInputDialogState extends State<RatingInputDialog> {
                           builder: (context, value, child) {
                             return switch (value.resultState) {
                               PostRatingNoneState() => ElevatedButton(
-                                style: ButtonStyle(
-                                  backgroundColor: WidgetStateProperty.all(
-                                    Theme.of(context).colorScheme.primary,
+                                  style: ButtonStyle(
+                                    backgroundColor: WidgetStateProperty.all(
+                                      Theme.of(context).colorScheme.primary,
+                                    ),
                                   ),
-                                ),
-                                onPressed: () {
-                                  if (_reviewFormKey.currentState!.validate()) {
-                                    context
-                                        .read<PostRatingProvider>()
-                                        .postRating(
-                                          widget._restaurantId,
-                                          widget._nameController.text,
-                                          widget._reviewController.text,
-                                        );
-                                    Future.delayed(Duration(seconds: 3), () {
-                                      Navigator.pop(context);
+                                  onPressed: () {
+                                    if (_reviewFormKey.currentState!
+                                        .validate()) {
                                       context
                                           .read<PostRatingProvider>()
-                                          .setResultState(
-                                            PostRatingNoneState(),
+                                          .postRating(
+                                            widget._restaurantId,
+                                            widget._nameController.text,
+                                            widget._reviewController.text,
                                           );
-                                      context
-                                          .read<TextEditingControllerProvider>()
-                                          .setNameController("");
-                                      context
-                                          .read<TextEditingControllerProvider>()
-                                          .setNameController("");
-                                    });
-                                  }
-                                },
-                                child: Text(
-                                  "Kirim",
-                                  style: Theme.of(
-                                    context,
-                                  ).textTheme.bodyLarge?.copyWith(
-                                    color:
-                                        Theme.of(context).colorScheme.onPrimary,
+                                      Future.delayed(Duration(seconds: 3), () {
+                                        Navigator.pop(context);
+                                        context
+                                            .read<PostRatingProvider>()
+                                            .setResultState(
+                                              PostRatingNoneState(),
+                                            );
+                                        context
+                                            .read<
+                                                TextEditingControllerProvider>()
+                                            .setNameController("");
+                                        context
+                                            .read<
+                                                TextEditingControllerProvider>()
+                                            .setNameController("");
+                                      });
+                                    }
+                                  },
+                                  child: Text(
+                                    "Kirim",
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.bodyLarge?.copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onPrimary,
+                                        ),
                                   ),
                                 ),
-                              ),
                               PostRatingLoadingState() => Center(
-                                child: Lottie.asset(
-                                  "assets/animation/loading.json",
-                                  repeat: true,
-                                  height: 70,
-                                  width: 70,
+                                  child: Lottie.asset(
+                                    "assets/animation/loading.json",
+                                    repeat: true,
+                                    height: 70,
+                                    width: 70,
+                                  ),
                                 ),
-                              ),
                               PostRatingSuccessState() => Text(
-                                "Ulasan terkirim!",
-                                style: Theme.of(context).textTheme.bodyLarge,
-                              ),
+                                  "Ulasan terkirim!",
+                                  style: Theme.of(context).textTheme.bodyLarge,
+                                ),
                               PostRatingErrorState(error: var message) => Text(
-                                message,
-                              ),
+                                  message,
+                                ),
                             };
                           },
                         ),

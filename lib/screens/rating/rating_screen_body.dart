@@ -22,8 +22,8 @@ class _RatingScreenBodyState extends State<RatingScreenBody> {
         label: Text(
           "Tambahkan ulasan",
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-            color: Theme.of(context).colorScheme.onPrimary,
-          ),
+                color: Theme.of(context).colorScheme.onPrimary,
+              ),
         ),
         icon: Icon(
           Icons.add_rounded,
@@ -63,7 +63,7 @@ class _RatingScreenBodyState extends State<RatingScreenBody> {
                       children: [
                         Text(
                           "Total rating: ${widget.restaurantDetail.rating.toString()} / 5 ",
-                          style: Theme.of(context).textTheme.titleMedium,
+                          style: Theme.of(context).textTheme.titleSmall,
                         ),
                         const SizedBox(height: 5),
                         Text(
@@ -74,9 +74,8 @@ class _RatingScreenBodyState extends State<RatingScreenBody> {
                     ),
                     RatingBarIndicator(
                       rating: widget.restaurantDetail.rating,
-                      itemBuilder:
-                          (context, index) =>
-                              Icon(Icons.star_rounded, color: Colors.amber),
+                      itemBuilder: (context, index) =>
+                          Icon(Icons.star_rounded, color: Colors.amber),
                       itemCount: 5,
                       itemSize: 30,
                     ),
@@ -122,18 +121,14 @@ class _RatingScreenBodyState extends State<RatingScreenBody> {
                             children: [
                               Flexible(
                                 child: Text(
-                                  widget
-                                      .restaurantDetail
-                                      .customerReviews[index]
+                                  widget.restaurantDetail.customerReviews[index]
                                       .name,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                               const SizedBox(width: 30),
                               Text(
-                                widget
-                                    .restaurantDetail
-                                    .customerReviews[index]
+                                widget.restaurantDetail.customerReviews[index]
                                     .date,
                               ),
                             ],

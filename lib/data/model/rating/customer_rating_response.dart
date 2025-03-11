@@ -21,10 +21,10 @@ class CustomerRatingResponse {
       );
 
   Map<String, dynamic> toJson() => {
-    "error": error,
-    "message": message,
-    "customerReviews": List<dynamic>.from(
-      customerReviews.map((x) => x.toJson()),
-    ),
-  };
+        "error": error,
+        "message": message,
+        "customerReviews": List<dynamic>.from(
+          customerReviews.map((x) => x.toJson()),
+        ),
+      };
 }

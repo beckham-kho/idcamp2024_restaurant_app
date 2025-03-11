@@ -53,10 +53,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       borderRadius: BorderRadius.circular(50),
                       border: Border.all(color: Colors.grey),
                     ),
-                    child: Consumer2<
-                      SearchRestoProvider,
-                      TextEditingControllerProvider
-                    >(
+                    child: Consumer2<SearchRestoProvider,
+                        TextEditingControllerProvider>(
                       builder: (
                         context,
                         searchFieldValue,
@@ -93,105 +91,108 @@ class _HomeScreenState extends State<HomeScreen> {
                         .text
                         .isNotEmpty
                     ? Expanded(
-                      child: Consumer<SearchRestoProvider>(
-                        builder: (context, value, child) {
-                          return switch (value.resultState) {
-                            SearchRestoLoadingState() => Center(
-                              child: Lottie.asset(
-                                "assets/animation/loading.json",
-                                repeat: true,
-                                height: 200,
-                                width: 200,
-                              ),
-                            ),
-                            SearchRestoLoadedState(data: var restoList) =>
-                              ListView.builder(
-                                itemCount: restoList.length,
-                                itemBuilder: (context, index) {
-                                  final restaurant = restoList[index];
-
-                                  return RestoCard(
-                                    restaurant: restaurant,
-                                    onTap: () {
-                                      Navigator.pushNamed(
-                                        context,
-                                        NavigationRoute.detailRoute.name,
-                                        arguments: restaurant.id,
-                                      );
-                                    },
-                                  );
-                                },
-                              ),
-                            SearchRestoErrorState(error: var message) => Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Lottie.asset(
-                                    "assets/animation/error.json",
-                                    width: 200,
-                                    height: 200,
+                        child: Consumer<SearchRestoProvider>(
+                          builder: (context, value, child) {
+                            return switch (value.resultState) {
+                              SearchRestoLoadingState() => Center(
+                                  child: Lottie.asset(
+                                    "assets/animation/loading.json",
                                     repeat: true,
+                                    height: 200,
+                                    width: 200,
                                   ),
-                                  Text(message),
-                                ],
-                              ),
-                            ),
-                            _ => const SizedBox(),
-                          };
-                        },
-                      ),
-                    )
+                                ),
+                              SearchRestoLoadedState(data: var restoList) =>
+                                ListView.builder(
+                                  itemCount: restoList.length,
+                                  itemBuilder: (context, index) {
+                                    final restaurant = restoList[index];
+
+                                    return RestoCard(
+                                      restaurant: restaurant,
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                          context,
+                                          NavigationRoute.detailRoute.name,
+                                          arguments: restaurant.id,
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
+                              SearchRestoErrorState(error: var message) =>
+                                Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Lottie.asset(
+                                        "assets/animation/error.json",
+                                        width: 200,
+                                        height: 200,
+                                        repeat: true,
+                                      ),
+                                      Text(message),
+                                    ],
+                                  ),
+                                ),
+                              _ => const SizedBox(),
+                            };
+                          },
+                        ),
+                      )
                     : Expanded(
-                      child: Consumer<RestoListProvider>(
-                        builder: (context, value, child) {
-                          return switch (value.resultState) {
-                            RestoListLoadingState() => Center(
-                              child: Lottie.asset(
-                                "assets/animation/loading.json",
-                                repeat: true,
-                                height: 200,
-                                width: 200,
-                              ),
-                            ),
-                            RestoListLoadedState(data: var restoList) =>
-                              ListView.builder(
-                                itemCount: restoList.length,
-                                itemBuilder: (context, index) {
-                                  final restaurant = restoList[index];
-
-                                  return RestoCard(
-                                    restaurant: restaurant,
-                                    onTap: () {
-                                      Navigator.pushNamed(
-                                        context,
-                                        NavigationRoute.detailRoute.name,
-                                        arguments: restaurant.id,
-                                      );
-                                    },
-                                  );
-                                },
-                              ),
-                            RestoListErrorState(error: var message) => Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Lottie.asset(
-                                    "assets/animation/error.json",
-                                    width: 200,
-                                    height: 200,
+                        child: Consumer<RestoListProvider>(
+                          builder: (context, value, child) {
+                            return switch (value.resultState) {
+                              RestoListLoadingState() => Center(
+                                  child: Lottie.asset(
+                                    "assets/animation/loading.json",
                                     repeat: true,
+                                    height: 200,
+                                    width: 200,
                                   ),
-                                  Text(message),
-                                ],
-                              ),
-                            ),
-                            _ => const SizedBox(),
-                          };
-                        },
-                      ),
-                    );
+                                ),
+                              RestoListLoadedState(data: var restoList) =>
+                                ListView.builder(
+                                  itemCount: restoList.length,
+                                  itemBuilder: (context, index) {
+                                    final restaurant = restoList[index];
+
+                                    return RestoCard(
+                                      restaurant: restaurant,
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                          context,
+                                          NavigationRoute.detailRoute.name,
+                                          arguments: restaurant.id,
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
+                              RestoListErrorState(error: var message) => Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Lottie.asset(
+                                        "assets/animation/error.json",
+                                        width: 200,
+                                        height: 200,
+                                        repeat: true,
+                                      ),
+                                      Text(message),
+                                    ],
+                                  ),
+                                ),
+                              _ => const SizedBox(),
+                            };
+                          },
+                        ),
+                      );
               },
             ),
           ],

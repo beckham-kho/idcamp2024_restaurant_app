@@ -33,9 +33,7 @@ void callbackDispatcher() {
           restaurantNames.length - 1,
         );
         final randomRestaurant = restaurantNames[randomRestaurantNameIndex];
-        if (DateTime.now().hour == 11) {
-          localNotificationProvider.showNotification(randomRestaurant);
-        }
+        localNotificationProvider.showNotification(randomRestaurant);
       } else if (resultState is RestoListErrorState) {
         print("Gagal dalam memuat data restoran");
       }
@@ -48,18 +46,25 @@ class WorkmanagerService {
   final Workmanager _workmanager;
 
   WorkmanagerService([Workmanager? workmanager])
-    : _workmanager = workmanager ??= Workmanager();
+      : _workmanager = workmanager ??= Workmanager();
 
   Future<void> init() async {
     await _workmanager.initialize(callbackDispatcher, isInDebugMode: true);
   }
 
   Future<void> runPeriodicTask() async {
+    final now = DateTime.now();
+    final targetTime = DateTime(now.year, now.month, now.day, 11, 00);
+
+    final initialDelay = targetTime.isBefore(now)
+        ? targetTime.add(const Duration(days: 1)).difference(now)
+        : targetTime.difference(now);
+
     await _workmanager.registerPeriodicTask(
       AppWorkmanager.periodic.uniqueName,
       AppWorkmanager.periodic.taskName,
       frequency: const Duration(hours: 24),
-      initialDelay: Duration(hours: DateTime.now().hour) - Duration(hours: 11),
+      initialDelay: initialDelay,
       inputData: {"data": "Tes periodic"},
     );
   }

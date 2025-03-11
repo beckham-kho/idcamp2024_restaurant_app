@@ -66,10 +66,9 @@ class RestaurantDetailContent extends StatelessWidget {
                                     decoration: BoxDecoration(
                                       border: Border(
                                         bottom: BorderSide(
-                                          color:
-                                              Theme.of(
-                                                context,
-                                              ).colorScheme.onPrimary,
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.onPrimary,
                                         ),
                                       ),
                                     ),
@@ -85,11 +84,10 @@ class RestaurantDetailContent extends StatelessWidget {
                                           style: Theme.of(
                                             context,
                                           ).textTheme.bodyLarge?.copyWith(
-                                            color:
-                                                Theme.of(
+                                                color: Theme.of(
                                                   context,
                                                 ).colorScheme.onPrimary,
-                                          ),
+                                              ),
                                         ),
                                       ],
                                     ),
@@ -99,11 +97,10 @@ class RestaurantDetailContent extends StatelessWidget {
                                     style: Theme.of(
                                       context,
                                     ).textTheme.bodyMedium?.copyWith(
-                                      color:
-                                          Theme.of(
+                                          color: Theme.of(
                                             context,
                                           ).colorScheme.onPrimary,
-                                    ),
+                                        ),
                                   ),
                                 ],
                               ),
@@ -166,8 +163,9 @@ class RestaurantDetailContent extends StatelessWidget {
                               style: Theme.of(
                                 context,
                               ).textTheme.bodyMedium?.copyWith(
-                                color: Theme.of(context).colorScheme.onPrimary,
-                              ),
+                                    color:
+                                        Theme.of(context).colorScheme.onPrimary,
+                                  ),
                             ),
                           );
                         },
@@ -200,8 +198,9 @@ class RestaurantDetailContent extends StatelessWidget {
                               style: Theme.of(
                                 context,
                               ).textTheme.bodyMedium?.copyWith(
-                                color: Theme.of(context).colorScheme.onPrimary,
-                              ),
+                                    color:
+                                        Theme.of(context).colorScheme.onPrimary,
+                                  ),
                             ),
                           );
                         },

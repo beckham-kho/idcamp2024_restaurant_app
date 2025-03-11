@@ -71,12 +71,18 @@ class _RestoCardState extends State<RestoCard> {
                           children: [
                             Text(
                               widget.restaurant.name,
-                              style: Theme.of(context).textTheme.titleLarge
-                                  ?.copyWith(color: Colors.white),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium
+                                  ?.copyWith(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
                             ),
                             Text(
                               widget.restaurant.city,
-                              style: Theme.of(context).textTheme.titleMedium
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium
                                   ?.copyWith(color: Colors.white),
                             ),
                           ],
@@ -87,7 +93,9 @@ class _RestoCardState extends State<RestoCard> {
                             const SizedBox(width: 2),
                             Text(
                               widget.restaurant.rating.toString(),
-                              style: Theme.of(context).textTheme.titleLarge
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge
                                   ?.copyWith(color: Colors.white),
                             ),
                           ],
